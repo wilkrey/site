@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&family=Jost:wght@300;400&display=swap">
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -96,7 +97,7 @@
             <p class="kicker">Independent Concept Project · Specialty coffee</p>
             <h3 class="feature__title">NOIR Café</h3>
             <p class="feature__text">A concept website for a premium specialty coffee shop. A dark palette, large typography and a slow scroll rhythm set the mood of the place.</p>
-            <a href="https://wilkrey.github.io/noir-cafe/" class="link-arrow" target="_blank" rel="noopener">View concept <span aria-hidden="true">↗</span></a>
+            <a href="https://wilkrey.github.io/noir-cafe/" class="link-arrow" target="_blank" rel="noopener noreferrer">View concept <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
           </div>
         </article>
 
@@ -113,7 +114,7 @@
             <p class="kicker">Independent Concept Project · Flower studio</p>
             <h3 class="feature__title">FLEURÉ</h3>
             <p class="feature__text">A concept website for a modern flower studio. Soft composition, open grid spacing and calm transitions help customers choose a bouquet without distraction.</p>
-            <a href="https://wilkrey.github.io/fleure/" class="link-arrow" target="_blank" rel="noopener">View concept <span aria-hidden="true">↗</span></a>
+            <a href="https://wilkrey.github.io/fleure/" class="link-arrow" target="_blank" rel="noopener noreferrer">View concept <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
           </div>
         </article>
       </div>
@@ -204,7 +205,7 @@
             </div>
             <div class="contact__item">
               <span class="contact__label">Telegram</span>
-              <a class="contact__link" href="https://t.me/wilkrey" target="_blank" rel="noopener noreferrer">@wilkrey <span aria-hidden="true">↗</span></a>
+              <a class="contact__link" href="https://t.me/wilkrey" target="_blank" rel="noopener noreferrer">@wilkrey <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
             </div>
           </div>
         </div>
@@ -222,10 +223,10 @@
         <a href="#process">Process</a>
         <a href="#contact">Contact</a>
       </nav>
-      <p class="footer__copy">© <span id="year"></span> WILKREY®. All rights reserved.</p>
+      <p class="footer__copy">© <span id="year">2026</span> WILKREY®. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="assets/script.js" defer></script>
+  <script src="assets/script.js" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

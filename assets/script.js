@@ -31,24 +31,58 @@
   var burger = document.getElementById('burger');
   var nav = document.getElementById('nav');
 
+  function isMenuOpen() {
+    return !!burger && burger.getAttribute('aria-expanded') === 'true';
+  }
+
+  /* Open: focus moves to the first link, otherwise keyboard users cannot reach the menu.
+     Close: if focus was inside the menu, return it to the burger, because a hidden
+     element cannot keep focus. */
   function setMenu(open) {
     if (!burger || !nav) return;
+    var focusInside = nav.contains(document.activeElement);
     burger.setAttribute('aria-expanded', String(open));
     burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     nav.classList.toggle('is-open', open);
+    if (open) {
+      var first = nav.querySelector('.nav__link');
+      if (first) first.focus({ preventScroll: true });
+    } else if (focusInside) {
+      burger.focus({ preventScroll: true });
+    }
   }
 
   if (burger && nav) {
     burger.addEventListener('click', function () {
-      setMenu(burger.getAttribute('aria-expanded') !== 'true');
+      setMenu(!isMenuOpen());
     });
     nav.addEventListener('click', function (e) {
       if (e.target.closest('a')) setMenu(false);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') setMenu(false);
+      if (e.key === 'Escape' && isMenuOpen()) setMenu(false);
     });
+
+    /* Moving to the desktop layout closes the panel (the header menu is always visible there) */
+    var desktopQuery = window.matchMedia('(min-width: 961px)');
+    var onLayoutChange = function (e) { if (e.matches) setMenu(false); };
+    if (desktopQuery.addEventListener) desktopQuery.addEventListener('change', onLayoutChange);
+    else desktopQuery.addListener(onLayoutChange);
   }
+
+  /* In-page links: browsers clear focus on hash navigation when the target is not focusable,
+     so focus is moved to the target section after the jump (keyboard and screen reader users stay in place). */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    var id = link.getAttribute('href').slice(1);
+    var target = id && document.getElementById(id);
+    if (!target) return;
+    setTimeout(function () {
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }, 0);
+  });
 
   /* ---------- Подсветка активного раздела в навигации ---------- */
   var navLinks = document.querySelectorAll('.nav__link');
