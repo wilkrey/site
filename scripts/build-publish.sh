@@ -14,6 +14,9 @@ PUBLIC_FILES=(
   "assets/styles.css"
   "assets/script.js"
   "assets/logo-mark.png"
+  "assets/og-image.png"
+  "robots.txt"
+  "sitemap.xml"
 )
 
 # ---- Build ----
@@ -54,6 +57,20 @@ while IFS= read -r ref; do
     missing=1
   fi
 done <<< "$url_refs"
+
+# SEO: every absolute wilkrey.pages.dev URL in index.html and sitemap.xml
+# that points to a file must exist in dist/ (og:image, logo, sitemap).
+SITE="https://wilkrey.pages.dev/"
+while IFS= read -r url; do
+  [[ -z "$url" ]] && continue
+  path="${url#$SITE}"
+  path="${path%%[?#]*}"
+  if [[ -z "$path" ]]; then continue; fi
+  if [[ ! -e "$DIST/$path" ]]; then
+    echo "ERROR: SEO reference missing from dist/: $url" >&2
+    missing=1
+  fi
+done < <(grep -ohE 'https://wilkrey\.pages\.dev/[^"<> ]*' "$DIST/index.html" "$DIST/sitemap.xml" 2>/dev/null | sort -u || true)
 
 if [[ $missing -ne 0 ]]; then exit 1; fi
 
