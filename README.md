@@ -10,6 +10,8 @@ wilkrey/
 ├── assets/
 │   ├── styles.css      # дизайн-система, композиция, анимации, адаптивность, reduced-motion
 │   └── script.js       # шапка при прокрутке, reveal, ленивые превью, меню, отклик 3D-объекта
+├── scripts/
+│   └── build-publish.sh  # сборка dist/ по белому списку (единственный источник публикации)
 └── README.md
 ```
 
@@ -19,9 +21,15 @@ wilkrey/
 
 ## Публикация
 
+Публикуется только папка `dist/`, которую собирает скрипт по белому списку файлов
+(`scripts/build-publish.sh`). README, `deploy/`, `.wrangler/`, скриншоты и скрипты в публикацию не попадают.
+
 ```bash
-npx wrangler pages deploy . --project-name=wilkrey
+./scripts/build-publish.sh
+npx wrangler pages deploy dist --project-name=wilkrey
 ```
+
+Новый публичный файл добавляется в массив `PUBLIC_FILES` в скрипте. Без этого он в `dist/` не попадёт.
 
 ## Перед публикацией
 
