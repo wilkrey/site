@@ -1,17 +1,23 @@
 # WILKREY® — Digital Studio
 
-Статический сайт на HTML, CSS и JavaScript. Сборка и зависимости не нужны.
+Статический сайт на HTML, CSS и JavaScript. Для локального просмотра сборка не нужна. Для публикации см. раздел «Публикация».
 
 ## Структура
 
 ```
 wilkrey/
-├── index.html          # разметка, SEO, Open Graph, favicon
+├── index.html            # разметка, SEO, Open Graph, Twitter Cards, JSON-LD, favicon
+├── robots.txt            # правила для поисковых роботов, ссылка на sitemap
+├── sitemap.xml           # карта сайта (одна страница)
 ├── assets/
-│   ├── styles.css      # дизайн-система, композиция, анимации, адаптивность, reduced-motion
-│   └── script.js       # шапка при прокрутке, reveal, ленивые превью, меню, отклик 3D-объекта
+│   ├── styles.css        # дизайн-система, композиция, анимации, адаптивность, reduced-motion
+│   ├── script.js         # шапка при прокрутке, reveal, ленивые превью, меню, отклик 3D-объекта
+│   ├── logo-mark.png     # логотип
+│   └── og-image.png      # превью для соцсетей, 1200×630
 ├── scripts/
 │   └── build-publish.sh  # сборка dist/ по белому списку (единственный источник публикации)
+├── deploy/               # старая копия сайта, не публикуется
+├── .gitignore
 └── README.md
 ```
 
@@ -25,16 +31,16 @@ wilkrey/
 (`scripts/build-publish.sh`). README, `deploy/`, `.wrangler/`, скриншоты и скрипты в публикацию не попадают.
 
 ```bash
-./scripts/build-publish.sh
-npx wrangler pages deploy dist --project-name=wilkrey
+bash scripts/build-publish.sh && npx wrangler pages deploy dist --project-name=wilkrey
 ```
+
+Не используйте `wrangler pages deploy .`: эта команда загрузит всю папку, включая `deploy/`, `.git` и служебные файлы.
 
 Новый публичный файл добавляется в массив `PUBLIC_FILES` в скрипте. Без этого он в `dist/` не попадёт.
 
 ## Перед публикацией
 
-- Проверьте `og:url` в `index.html` (сейчас `https://wilkrey.pages.dev/`).
-- Вместо блока `.contact__slot` добавьте реальные контакты, когда они появятся.
+- Проверьте, что `og:url`, `canonical` и адрес в `sitemap.xml` указывают на `https://wilkrey.pages.dev/` (сейчас так и есть).
 - Превью кейсов загружают живые демо с `wilkrey.github.io`. Если сайт демо недоступен, в рамке будет пусто, а ссылка «Открыть демо» продолжит работать.
 
 ## Заметки
