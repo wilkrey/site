@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WILKREY® — Digital Studio | Digital experiences, crafted with precision</title>
+  <meta name="description" content="WILKREY® — digital-студия. Дизайн сайтов, фронтенд-разработка, UI/UX и адаптивные digital-продукты. Кейсы: NOIR Café, FLEURÉ.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="WILKREY® — Digital Studio">
+  <meta property="og:description" content="Digital experiences, crafted with precision.">
+  <meta property="og:url" content="https://wilkrey.pages.dev/">
+  <meta name="theme-color" content="#090A0C">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23090A0C'/%3E%3Cpath d='M8 9l4 14 4-10 4 10 4-14' fill='none' stroke='%23C9B8A9' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&family=Jost:wght@300;400&display=swap">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#top" class="logo" aria-label="WILKREY, на главную">WILKREY<sup>®</sup></a>
+      <nav class="nav" id="nav" aria-label="Основная навигация">
+        <a href="#work" class="nav__link">Проекты</a>
+        <a href="#studio" class="nav__link">Студия</a>
+        <a href="#services" class="nav__link">Услуги</a>
+        <a href="#process" class="nav__link">Процесс</a>
+        <a href="#contact" class="nav__link">Контакты</a>
+      </nav>
+      <a href="#contact" class="btn btn--glass btn--sm header__cta"><span>Связаться</span></a>
+      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero__space" aria-hidden="true">
+        <div class="hero__halo"></div>
+        <div class="hero__grid"></div>
+      </div>
+
+      <div class="container hero__content">
+        <div class="hero__copy">
+          <p class="hero__tag fade" style="--d:.1s">Digital Studio &nbsp;/&nbsp; Design &nbsp;·&nbsp; Development &nbsp;·&nbsp; Motion</p>
+          <h1 class="hero__title">
+            <span class="mask"><span class="mask__in" style="--d:.25s">WILKREY<sup>®</sup></span></span>
+          </h1>
+          <p class="hero__headline fade" style="--d:.55s">Digital experiences,<br>crafted with precision.</p>
+          <div class="hero__bottom fade" style="--d:.75s">
+            <p class="hero__text">Создаём современные цифровые продукты, объединяя дизайн, технологии и внимание к деталям.</p>
+            <a href="#work" class="btn btn--light"><span>Explore our work</span> <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="hero__object fade" id="object" aria-hidden="true" style="--d:.4s">
+          <div class="obj" id="obj">
+            <div class="obj__ring obj__ring--a"></div>
+            <div class="obj__ring obj__ring--b"></div>
+            <div class="obj__lens"></div>
+            <img class="obj__mark" src="assets/logo-mark.png" alt="" width="668" height="324" decoding="async">
+            <div class="obj__sheen"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__meta container fade" style="--d:.95s">
+        <span>Scroll</span>
+        <span class="hero__meta-line" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <!-- SELECTED WORK -->
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker">01 — Selected work</p>
+          <h2 class="h2" id="work-title">Проекты, которые говорят сами за себя.</h2>
+          <p class="note">Демонстрационные концепции. Это не реальные коммерческие заказы.</p>
+        </header>
+
+        <article class="feature reveal" id="case-noir">
+          <div class="feature__preview">
+            <div class="preview" data-preview>
+              <div class="preview__bar"><span></span><span></span><span></span><em>wilkrey.github.io/noir-cafe</em></div>
+              <div class="preview__frame">
+                <iframe data-src="https://wilkrey.github.io/noir-cafe/" title="Превью сайта NOIR Café" loading="lazy" referrerpolicy="no-referrer" tabindex="-1"></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="feature__body glass">
+            <p class="kicker">Specialty coffee · Web Design / Frontend / Brand Experience</p>
+            <h3 class="feature__title">NOIR Café</h3>
+            <p class="feature__text">Концептуальный сайт премиальной specialty coffee shop. Тёмная палитра, крупная типографика и неспешный ритм прокрутки создают атмосферу места.</p>
+            <a href="https://wilkrey.github.io/noir-cafe/" class="link-arrow" target="_blank" rel="noopener">Открыть демо <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="feature feature--flip reveal" id="case-fleure">
+          <div class="feature__preview">
+            <div class="preview" data-preview>
+              <div class="preview__bar"><span></span><span></span><span></span><em>wilkrey.github.io/fleure</em></div>
+              <div class="preview__frame">
+                <iframe data-src="https://wilkrey.github.io/fleure/" title="Превью сайта FLEURÉ" loading="lazy" referrerpolicy="no-referrer" tabindex="-1"></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="feature__body glass">
+            <p class="kicker">Flower studio · Web Design / Frontend / Digital Experience</p>
+            <h3 class="feature__title">FLEURÉ</h3>
+            <p class="feature__text">Концептуальный сайт современной цветочной студии. Мягкая композиция, воздух в сетке и спокойные переходы помогают выбрать букет без лишней суеты.</p>
+            <a href="https://wilkrey.github.io/fleure/" class="link-arrow" target="_blank" rel="noopener">Открыть демо <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- STUDIO -->
+    <section class="section studio" id="studio" aria-labelledby="studio-title">
+      <div class="container">
+        <p class="kicker reveal">02 — Studio</p>
+        <h2 class="statement reveal" id="studio-title">We believe great digital experiences are <span class="accent">built with intention.</span></h2>
+        <ul class="principles">
+          <li class="principle reveal"><span class="principle__n">i</span><h3>Design with purpose</h3><p>Каждый экран начинается с вопроса, какую задачу он решает.</p></li>
+          <li class="principle reveal"><span class="principle__n">ii</span><h3>Attention to detail</h3><p>Типографика, ритм отступов и состояния элементов проверяются до мелочей.</p></li>
+          <li class="principle reveal"><span class="principle__n">iii</span><h3>Technology that serves people</h3><p>Инструменты выбираются под задачу, а не ради моды.</p></li>
+          <li class="principle reveal"><span class="principle__n">iv</span><h3>Performance and usability</h3><p>Быстрая загрузка и понятная навигация важнее лишних эффектов.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section services" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker">03 — Services</p>
+          <h2 class="h2" id="services-title">Четыре направления работы.</h2>
+        </header>
+
+        <ul class="svc-list">
+          <li class="svc reveal">
+            <span class="svc__num">01</span>
+            <h3 class="svc__title">Website Design</h3>
+            <p class="svc__text">Концепция, композиция страниц и визуальная система под задачи бизнеса.</p>
+            <span class="svc__art svc__art--design" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+          <li class="svc reveal">
+            <span class="svc__num">02</span>
+            <h3 class="svc__title">Frontend Development</h3>
+            <p class="svc__text">Чистый HTML, CSS и JavaScript без лишних зависимостей и с вниманием к скорости.</p>
+            <span class="svc__art svc__art--code" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          </li>
+          <li class="svc reveal">
+            <span class="svc__num">03</span>
+            <h3 class="svc__title">UI/UX Design</h3>
+            <p class="svc__text">Сценарии, состояния интерфейса и прототипы, которые проверяются до разработки.</p>
+            <span class="svc__art svc__art--flow" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+          <li class="svc reveal">
+            <span class="svc__num">04</span>
+            <h3 class="svc__title">Responsive Digital Experiences</h3>
+            <p class="svc__text">Полноценные мобильные, планшетные и десктопные композиции, а не уменьшенные копии.</p>
+            <span class="svc__art svc__art--screens" aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section process" id="process" aria-labelledby="process-title">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker">04 — Process</p>
+          <h2 class="h2" id="process-title">От идеи до запуска.</h2>
+        </header>
+        <div class="track" id="track">
+          <div class="track__line" aria-hidden="true"><span id="track-fill"></span></div>
+          <ol class="steps">
+            <li class="step reveal"><span class="step__num">01</span><h3>Discovery</h3><p>Цели, аудитория и требования. Фиксируем, что именно должен делать сайт.</p></li>
+            <li class="step reveal"><span class="step__num">02</span><h3>Design</h3><p>Композиция, типографика и палитра. Визуальный язык согласуется до кода.</p></li>
+            <li class="step reveal"><span class="step__num">03</span><h3>Development</h3><p>Вёрстка, движение и адаптивность. Проверка на реальных устройствах.</p></li>
+            <li class="step reveal"><span class="step__num">04</span><h3>Launch</h3><p>Публикация, проверка ссылок и производительности, передача исходников.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact__scene reveal">
+          <div class="contact__ring" aria-hidden="true"></div>
+          <p class="kicker">05 — Contact</p>
+          <h2 class="contact__title" id="contact-title">Have something in mind?</h2>
+          <p class="contact__lead">Let's turn your idea into something remarkable.</p>
+          <div class="contact__links" role="group" aria-label="Контактные данные WILKREY">
+            <div class="contact__item">
+              <span class="contact__label">Email</span>
+              <a class="contact__link" href="mailto:hello.wilkrey@gmail.com">hello.wilkrey@gmail.com</a>
+            </div>
+            <div class="contact__item">
+              <span class="contact__label">Telegram</span>
+              <a class="contact__link" href="https://t.me/wilkrey" target="_blank" rel="noopener noreferrer">@wilkrey <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#top" class="logo">WILKREY<sup>®</sup></a>
+      <nav class="footer__nav" aria-label="Нижняя навигация">
+        <a href="#work">Проекты</a>
+        <a href="#studio">Студия</a>
+        <a href="#services">Услуги</a>
+        <a href="#process">Процесс</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+      <p class="footer__copy">© <span id="year"></span> WILKREY®. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="assets/script.js" defer></script>
+</body>
+</html>

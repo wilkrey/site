@@ -1,0 +1,9 @@
+# Local tooling cache (contains Cloudflare account metadata, never publish or commit)
+.wrangler/
+
+# Generated publish output (rebuilt by scripts/build-publish.sh)
+dist/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
