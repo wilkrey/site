@@ -668,3 +668,68 @@
     card.addEventListener('pointerleave', function () { aim(0, 0); });
   });
 })();
+
+/* ---------- Переход курсора между карточками услуг ----------
+   Один акцент скользит по строкам вслед за курсором. Только точный указатель и без reduced-motion. */
+(function () {
+  'use strict';
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+  if (reduceMotion || !finePointer) return;
+
+  var list = document.querySelector('.svc-list');
+  if (!list) return;
+
+  var glide = document.createElement('li');
+  glide.className = 'svc-glide';
+  glide.setAttribute('aria-hidden', 'true');
+  list.appendChild(glide);
+  list.classList.add('has-glide');
+
+  var active = null;
+
+  function place(card) {
+    glide.style.setProperty('--gy', card.offsetTop + 'px');
+    glide.style.setProperty('--gh', card.offsetHeight + 'px');
+  }
+
+  list.querySelectorAll('.svc').forEach(function (card) {
+    card.addEventListener('pointerenter', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      active = card;
+      place(card);
+      glide.classList.add('is-on');
+    });
+  });
+
+  list.addEventListener('pointerleave', function () {
+    active = null;
+    glide.classList.remove('is-on');
+  });
+
+  window.addEventListener('resize', function () { if (active) place(active); });
+})();
+
+/* ---------- Появление карточек услуг: строка открывается, когда до неё доходит прокрутка ----------
+   Карточки полностью обрезаны до открытия (clip-path), а браузер не считает обрезанный элемент видимым,
+   поэтому наблюдаем за самим списком и открываем карточки по очереди (задержки заданы через --delay). */
+(function () {
+  'use strict';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var list = document.querySelector('.svc-list');
+  if (!list) return;
+  var cards = list.querySelectorAll('.svc.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    cards.forEach(function (c) { c.classList.add('is-visible'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function (entries, o) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      cards.forEach(function (c) { c.classList.add('is-visible'); });
+      o.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  obs.observe(list);
+})();
