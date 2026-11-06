@@ -3,6 +3,7 @@
 Статус: **подготовлено, не выполнено**. Деплой не выполнялся. Ни один пункт ниже не считается проверенным, пока не отмечен с результатом.
 
 ## 1. Форма заявок (Web3Forms)
+- [ ] **Блокер:** пока `REPLACE_WITH_WEB3FORMS_ACCESS_KEY` в `index.html`, форма показывает «Форма ще не активна» и не отправляет данные. Публикация с заглушкой недопустима.
 - [ ] Получить access key на https://web3forms.com для адреса, куда должны приходить заявки.
 - [ ] Вставить ключ в скрытое поле `access_key` в `index.html` (сейчас стоит `REPLACE_WITH_WEB3FORMS_ACCESS_KEY`) и проверить, что `PLACEHOLDER_KEY` в `assets/script.js` больше не используется.
 - [ ] Отправить одну тестовую заявку **только после письменного разрешения владельца**. Проверить: письмо пришло, поля переданы корректно, тема письма, ответ на адрес клиента.
@@ -20,7 +21,8 @@
 
 ## 4. Хостинг
 - [ ] Выбрать хостинг (план: Cloudflare Pages, проект `wilkrey`). Бесплатная или платная часть — решает владелец.
-- [ ] Настроить: **Build command — пусто; Output directory — `dist`**. Сборка делается локально скриптом `scripts/build-publish.sh`, либо Build command `bash scripts/build-publish.sh` с output `dist`.
+- [ ] Настроить Git-сборку: **Build command `bash scripts/build-publish.sh`, Build output directory `dist`**, корень репозитория, production branch `main`. Пустой Build command не подходит: `dist/` не хранится в Git, и без сборки публиковать будет нечего.
+- [ ] Перед публикацией в Cloudflare выключить Rocket Loader (Speed → Optimization), он переписывает `<script>`.
 - [ ] Убедиться, что в опубликованном `dist/` нет README, `deploy/`, `.git`, `scripts/`, `docs/`, `.wrangler/`.
 - [ ] Заголовки безопасности (по желанию, после проверки): `Content-Security-Policy` с разрешением Google Fonts и `api.web3forms.com`, `X-Content-Type-Options: nosniff`.
 
