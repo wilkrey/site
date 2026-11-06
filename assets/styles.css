@@ -644,31 +644,62 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   border-bottom: 1px solid var(--hair);
   overflow: hidden;
   isolation: isolate;
-  transition: padding .8s var(--ease);
+  transition: padding .9s var(--ease), background-color .8s var(--ease);
 }
-/* Подсветка строки при наведении — стеклянная полоса */
+/* Блок услуги при наведении: поверхность, световой блик, линия и текст движутся каскадом.
+   Все элементы возвращаются в исходное положение при уходе курсора. */
 .svc::before {
-  content: "";
-  position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.015) 60%, transparent);
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background-color: transparent;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.015) 60%, transparent),
+    linear-gradient(100deg, transparent 38%, rgba(244,243,239,.10) 50%, transparent 62%);
+  background-size: 100% 100%, 260% 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0, 100% 0;
   opacity: 0;
-  transform: scaleX(.98);
+  transform: scaleX(.985);
   transform-origin: left;
-  transition: opacity .6s var(--ease), transform .8s var(--ease);
+  transition: opacity .7s var(--ease), transform 1s var(--ease);
+}
+/* Нижняя линия строки: рисуется слева направо */
+.svc::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; z-index: 1;
+  background: linear-gradient(90deg, var(--champagne), rgba(201,184,169,.12));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 1.2s var(--ease);
+  pointer-events: none;
 }
 .svc:hover { padding-left: clamp(16px, 2vw, 32px); }
-.svc:hover::before { opacity: 1; transform: none; }
+.svc:hover::before {
+  opacity: 1; transform: none;
+  animation: svc-sheen 1.9s var(--ease) both;
+}
+.svc:hover::after { transform: scaleX(1); }
+@keyframes svc-sheen {
+  from { background-position: 0 0, 100% 0; }
+  to   { background-position: 0 0, 0% 0; }
+}
 
 .svc__num {
+  display: inline-block;
   font-family: var(--f-serif); font-style: italic;
   font-size: 18px; color: var(--silver);
+  transition: transform .9s var(--ease) .04s, color .6s var(--ease) .04s;
 }
+.svc:hover .svc__num { transform: translate3d(0, -5px, 0); color: var(--champagne); }
 .svc__title {
   font-family: var(--f-serif); font-weight: 400;
   font-size: clamp(1.9rem, 3.4vw, 3rem); line-height: 1.04;
   letter-spacing: -.01em;
+  transition: transform 1.1s var(--ease) .08s;
 }
-.svc__text { color: var(--text-dim); font-size: 15px; max-width: 44ch; }
+.svc:hover .svc__title { transform: translate3d(8px, 0, 0); }
+.svc__text {
+  color: var(--text-dim); font-size: 15px; max-width: 44ch;
+  transition: transform 1s var(--ease) .14s, color .7s var(--ease) .14s;
+}
+.svc:hover .svc__text { transform: translate3d(0, -2px, 0); color: var(--text); }
 
 /* Иллюстрации карточек услуг.
    Два независимых слоя движения, которые складываются:
@@ -783,6 +814,8 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   .svc__art i,
   .svc__art i::after,
   .svc__art--flow::before { translate: none !important; }
+  .svc:hover::before { animation: none !important; }
+  .svc:hover .svc__num, .svc:hover .svc__title, .svc:hover .svc__text { transform: none !important; }
   .svc:hover .svc__art i,
   .svc:hover .svc__art--code i::after,
   .svc:hover .svc__art--screens i::after,
