@@ -7,3 +7,12 @@ dist/
 # OS / editor noise
 .DS_Store
 Thumbs.db
+
+# Secrets and local environment (keep an example file, if one is added, committed)
+.env
+.env.*
+!.env.example
+
+# Archives and dependencies, never part of the source
+*.zip
+node_modules/
