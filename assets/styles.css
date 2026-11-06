@@ -1251,7 +1251,7 @@ html.has-cursor:not(.cursor-native) * { cursor: none !important; }
 
   .feature, .feature--flip { grid-template-columns: 1fr; }
   .feature--flip .feature__preview, .feature--flip .feature__body { order: initial; }
-  .feature:nth-of-type(2) .feature__body { margin-top: -36px; margin-inline: 14px; }
+  .feature:nth-of-type(2) .feature__body { margin-top: 0; }
   .feature__body { margin-inline: 0; }
   .feature { margin-top: 72px; }
 }
