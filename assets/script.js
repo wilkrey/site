@@ -538,12 +538,13 @@
   var pos = { x: -100, y: -100 };
   var raf = 0;
   var shown = false;
+  var placed = false;
   var overNative = false;
 
   function frame() {
     pos.x += (goal.x - pos.x) * 0.24;
     pos.y += (goal.y - pos.y) * 0.24;
-    dot.style.transform = 'translate3d(' + pos.x.toFixed(2) + 'px,' + pos.y.toFixed(2) + 'px,0)';
+    dot.style.translate = pos.x.toFixed(2) + 'px ' + pos.y.toFixed(2) + 'px';
     if (Math.abs(goal.x - pos.x) > 0.05 || Math.abs(goal.y - pos.y) > 0.05) {
       raf = requestAnimationFrame(frame);
     } else {
@@ -573,9 +574,13 @@
     if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
     goal.x = e.clientX;
     goal.y = e.clientY;
-    if (!shown) {
+    if (!placed) {
+      /* First appearance only: place the dot under the pointer without flying in from the corner */
       pos.x = goal.x;
       pos.y = goal.y;
+      placed = true;
+    }
+    if (!shown) {
       shown = true;
       dot.classList.add('is-on');
     }
@@ -592,6 +597,7 @@
   /* Pointer left the browser window: hide the dot and restore the system cursor */
   document.addEventListener('mouseout', function (e) {
     if (!e.relatedTarget && !e.toElement) {
+      /* Hide only. Keep the position, so returning does not teleport the dot. */
       shown = false;
       dot.classList.remove('is-on', 'is-hover', 'is-down');
       setNative(false);

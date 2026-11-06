@@ -968,7 +968,11 @@ html:not(.js) .track__line span { transform: none; }
   background: var(--champagne);
   pointer-events: none;
   opacity: 0;
-  will-change: transform, scale;
+  /* Position is set with the `translate` property (script.js). It is applied outside `scale`,
+     so the offset to the pointer is never multiplied by the growth factor. Growth uses `scale`
+     around the centre of the 14px box (default transform-origin: 50% 50%). */
+  transform-origin: 50% 50%;
+  will-change: translate, scale;
   transition: opacity .35s var(--ease), scale .55s var(--ease), background-color .4s var(--ease), box-shadow .45s var(--ease);
 }
 .cursor.is-on { opacity: .92; }
