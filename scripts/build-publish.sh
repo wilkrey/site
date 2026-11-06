@@ -13,7 +13,7 @@ PUBLIC_FILES=(
   "index.html"
   "assets/styles.css"
   "assets/script.js"
-  "assets/logo-mark.png"
+  "assets/logo-mark.webp"
   "assets/og-image.png"
   "robots.txt"
   "sitemap.xml"

@@ -155,7 +155,7 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
 .logo::before {
   content: "";
   width: 31px; height: 15px;
-  background: url("logo-mark.png") center / 100% 100% no-repeat;
+  background: url("logo-mark.webp") center / 100% 100% no-repeat;
   flex: none;
 }
 
