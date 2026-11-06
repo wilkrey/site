@@ -288,6 +288,7 @@
       name: 'Будь ласка, введіть імʼя.',
       email: 'Будь ласка, введіть email.',
       emailInvalid: 'Будь ласка, введіть коректний email, наприклад name@example.com.',
+      telegramInvalid: 'Вкажіть username Telegram: від 5 до 32 символів, латиниця, цифри та «_», наприклад @wilkrey.',
       projectType: 'Будь ласка, оберіть тип проєкту.',
       description: 'Будь ласка, опишіть проєкт.',
       descriptionLong: 'Будь ласка, скоротіть опис до ' + MAX_DESCRIPTION + ' символів.'
@@ -312,6 +313,9 @@
     return Array.prototype.slice.call(form.querySelectorAll('input[name="' + name + '"]'));
   }
 
+  /* Telegram username: optional; accepts '@name' and 'name'. Links and phone numbers are not accepted. */
+  var TG_RE = /^@?[A-Za-z][A-Za-z0-9_]{3,30}[A-Za-z0-9]$/;
+
   var fields = {
     name: {
       target: function () { return [fieldInput('order-name')]; },
@@ -328,6 +332,15 @@
         if (!v) return MSG.required.email;
         if (!EMAIL_RE.test(v) || v.length > 254) return MSG.required.emailInvalid;
         return '';
+      }
+    },
+    telegram: {
+      target: function () { return [fieldInput('order-telegram')]; },
+      error: 'order-telegram-err',
+      check: function () {
+        var v = fieldInput('order-telegram').value.trim();
+        if (!v) return '';
+        return TG_RE.test(v) ? '' : MSG.required.telegramInvalid;
       }
     },
     project_type: {
@@ -349,7 +362,7 @@
       }
     }
   };
-  var order = ['name', 'email', 'project_type', 'description'];
+  var order = ['name', 'email', 'telegram', 'project_type', 'description'];
 
   function applyField(key) {
     var f = fields[key];
@@ -419,6 +432,13 @@
       if (key === 'botcheck') return;
       data[key] = typeof value === 'string' ? value.trim() : value;
     });
+    /* Telegram is optional: an empty value is not sent at all; a non-empty one is sent
+       as a separate field in the form '@username'. */
+    if (data.telegram === '') {
+      delete data.telegram;
+    } else if (typeof data.telegram === 'string') {
+      data.telegram = '@' + data.telegram.replace(/^@/, '');
+    }
     if (botcheck && botcheck.checked) data.botcheck = true;
     return data;
   }

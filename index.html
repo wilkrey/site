@@ -278,6 +278,13 @@
             </div>
 
             <div class="field">
+              <label class="field__label" for="order-telegram">Telegram <span class="field__opt">необов’язково</span></label>
+              <input class="field__input" type="text" id="order-telegram" name="telegram" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="@username" maxlength="33" aria-describedby="order-telegram-hint order-telegram-err">
+              <p class="field__hint" id="order-telegram-hint">Вкажіть, якщо вам зручніше спілкуватися в Telegram</p>
+              <p class="field__error" id="order-telegram-err" hidden></p>
+            </div>
+
+            <div class="field">
               <label class="field__label" for="order-company">Бізнес / компанія <span class="field__opt">необов’язково</span></label>
               <input class="field__input" type="text" id="order-company" name="company" autocomplete="organization" placeholder="Назва компанії або бренду" maxlength="120">
             </div>

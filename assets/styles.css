@@ -1101,6 +1101,7 @@ html:not(.js) .track__line span { transform: none; }
 
 .field__meta { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
 .field__error { margin: 0; font-size: 13px; line-height: 1.5; color: var(--err); }
+.field__hint { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-faint); }
 .field__count { margin: 0 0 0 auto; font-size: 12px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
 
 /* Choice chips: native radio buttons, styled as pills */
