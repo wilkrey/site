@@ -670,49 +670,127 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
 }
 .svc__text { color: var(--text-dim); font-size: 15px; max-width: 44ch; }
 
-/* Абстрактные визуальные элементы: тонкая геометрия */
-.svc__art { position: relative; height: 72px; justify-self: end; width: 160px; }
+/* Иллюстрации карточек услуг.
+   Два независимых слоя движения, которые складываются:
+   - translate: параллакс от положения курсора внутри карточки (script.js задаёт --px / --py);
+     амплитуда каждого элемента — своя (--ax / --ay), поэтому слои расходятся по глубине.
+   - transform: собственная анимация иллюстрации при наведении на карточку.
+   Геометрия элементов (размеры, положение) — без изменений. */
+.svc__art { position: relative; height: 72px; justify-self: end; width: 160px; perspective: 600px; }
 .svc__art i {
   position: absolute; display: block;
   border: 1px solid var(--hair-strong);
   border-radius: 14px;
   background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
-  /* `translate` carries the per-element offsets, `transform` carries the common lift. They add up. */
-  transition: transform .9s var(--ease), translate .9s var(--ease), border-color .6s;
+  translate: calc(var(--px, 0) * var(--ax, 0px)) calc(var(--py, 0) * var(--ay, 0px));
+  transition:
+    transform 1.1s var(--ease),
+    box-shadow .9s var(--ease),
+    border-color .7s var(--ease),
+    opacity .7s var(--ease),
+    width .9s var(--ease);
+  transition-delay: var(--d, 0s);
+  will-change: transform, translate;
 }
-/* Hover: every illustration element rises 4px (restored from the previous implementation) */
-.svc:hover .svc__art i { transform: translateY(-4px); border-color: rgba(201,184,169,.45); }
+.svc:hover .svc__art i { border-color: rgba(201,184,169,.45); }
 
-/* Design: три слоя */
-.svc__art--design i:nth-child(1) { width: 60px; height: 44px; left: 0; top: 14px; }
-.svc__art--design i:nth-child(2) { width: 60px; height: 44px; left: 40px; top: 4px; }
-.svc__art--design i:nth-child(3) { width: 60px; height: 44px; left: 80px; top: 24px; }
-.svc:hover .svc__art--design i:nth-child(2) { translate: 8px 0; }
+/* ---- Дизайн: три слоя, расходящиеся по глубине ---- */
+.svc__art--design i:nth-child(1) { width: 60px; height: 44px; left: 0;  top: 14px; --ax: -9px; --ay: 5px;  --d: 0s; }
+.svc__art--design i:nth-child(2) { width: 60px; height: 44px; left: 40px; top: 4px;  --ax: 14px; --ay: -7px; --d: .07s; }
+.svc__art--design i:nth-child(3) { width: 60px; height: 44px; left: 80px; top: 24px; --ax: 9px; --ay: 4px;  --d: .14s; }
+.svc:hover .svc__art--design i:nth-child(1) { transform: translate3d(-10px, 6px, 0) rotate(-8deg); }
+.svc:hover .svc__art--design i:nth-child(2) { transform: translate3d(0, -9px, 0) scale(1.07); box-shadow: 0 22px 40px -18px rgba(0,0,0,.9); }
+.svc:hover .svc__art--design i:nth-child(3) { transform: translate3d(10px, -3px, 0) rotate(8deg); }
 
-/* Code: строки */
-.svc__art--code i { height: 2px; border: 0; border-radius: 2px; background: var(--silver); opacity: .5; left: 0; width: 60%; }
-.svc__art--code i:nth-child(1) { top: 8px; width: 70%; }
-.svc__art--code i:nth-child(2) { top: 24px; width: 40%; background: var(--champagne); opacity: .8; }
-.svc__art--code i:nth-child(3) { top: 40px; width: 85%; }
-.svc__art--code i:nth-child(4) { top: 56px; width: 55%; }
-.svc:hover .svc__art--code i:nth-child(2) { width: 62%; }
+/* ---- Frontend: строки кода, по которым проходит блик сканирования ---- */
+.svc__art--code i {
+  height: 2px; border: 0; border-radius: 2px; background: var(--silver); opacity: .5;
+  left: 0; width: 60%; overflow: hidden;
+  transition: width .9s var(--ease), opacity .7s var(--ease), transform 1.1s var(--ease);
+  transition-delay: var(--d, 0s);   /* the shorthand above resets delays, so the stagger is restated */
+}
+.svc__art--code i::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(244,243,239,.9) 50%, transparent);
+  transform: translateX(-100%); opacity: 0;
+}
+.svc__art--code i:nth-child(1) { top: 8px;  width: 70%; --ax: 6px;  --ay: 0; --d: .00s; }
+.svc__art--code i:nth-child(2) { top: 24px; width: 40%; background: var(--champagne); opacity: .8; --ax: 10px; --ay: 0; --d: .10s; }
+.svc__art--code i:nth-child(3) { top: 40px; width: 85%; --ax: 4px;  --ay: 0; --d: .20s; }
+.svc__art--code i:nth-child(4) { top: 56px; width: 55%; --ax: 8px;  --ay: 0; --d: .30s; }
+.svc:hover .svc__art--code i { opacity: .95; }
+.svc:hover .svc__art--code i:nth-child(2) { width: 64%; }
+.svc:hover .svc__art--code i::after { opacity: 1; animation: svc-scan 2.4s var(--ease) infinite; animation-delay: var(--d, 0s); }
+.svc:hover .svc__art--code i:nth-child(2)::after { animation-delay: calc(var(--d) + .4s); }
+@keyframes svc-scan {
+  0%   { transform: translateX(-100%); }
+  55%, 100% { transform: translateX(100%); }
+}
 
-/* Flow: связанные узлы */
+/* ---- Flow: связанные узлы, по связи бежит свечение ---- */
 .svc__art--flow i { width: 26px; height: 26px; border-radius: 50%; top: 23px; }
-.svc__art--flow i:nth-child(1) { left: 0; }
-.svc__art--flow i:nth-child(2) { left: 67px; border-color: rgba(201,184,169,.5); }
-.svc__art--flow i:nth-child(3) { left: 134px; }
+.svc__art--flow i:nth-child(1) { left: 0;   --ax: -6px; --ay: 0; --d: 0s; }
+.svc__art--flow i:nth-child(2) { left: 67px; border-color: rgba(201,184,169,.5); --ax: 0; --ay: -6px; --d: .16s; }
+.svc__art--flow i:nth-child(3) { left: 134px; --ax: 6px; --ay: 0; --d: .08s; }
+.svc:hover .svc__art--flow i:nth-child(1) { transform: translate3d(6px, 0, 0); }
+.svc:hover .svc__art--flow i:nth-child(3) { transform: translate3d(-6px, 0, 0); }
+.svc:hover .svc__art--flow i:nth-child(2) {
+  transform: scale(1.22);
+  border-color: rgba(201,184,169,.85);
+  box-shadow: 0 0 0 6px rgba(201,184,169,.07), 0 0 26px rgba(201,184,169,.35);
+}
 .svc__art--flow::after {
   content: ""; position: absolute; left: 26px; right: 26px; top: 35px; height: 1px;
   background: linear-gradient(90deg, var(--hair-strong), var(--champagne), var(--hair-strong));
+  transition: opacity .7s var(--ease);
+}
+.svc__art--flow::before {
+  content: ""; position: absolute; left: 26px; top: 34px; width: 26px; height: 3px; border-radius: 3px;
+  background: radial-gradient(circle, var(--champagne) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+.svc:hover .svc__art--flow::before { opacity: 1; animation: svc-travel 1.8s var(--ease) infinite; }
+@keyframes svc-travel {
+  0%   { transform: translateX(0); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateX(82px); opacity: 0; }
 }
 
-/* Screens: три экрана разного масштаба */
-.svc__art--screens i { border-radius: 10px; }
-.svc__art--screens i:nth-child(1) { width: 42px; height: 72px; left: 0; top: 0; }
-.svc__art--screens i:nth-child(2) { width: 74px; height: 54px; left: 52px; top: 9px; }
-.svc__art--screens i:nth-child(3) { width: 42px; height: 72px; left: 118px; top: 0; }
-.svc:hover .svc__art--screens i:nth-child(2) { translate: 0 -4px; }
+/* ---- Screens: три экрана в перспективе, боковые поворачиваются ---- */
+.svc__art--screens i { border-radius: 10px; overflow: hidden; }
+.svc__art--screens i::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(244,243,239,.16) 50%, transparent 65%);
+  transform: translateX(-120%);
+  opacity: 0;
+}
+.svc__art--screens i:nth-child(1) { width: 42px; height: 72px; left: 0;   top: 0;  --ax: -7px; --ay: 3px;  --d: .08s; }
+.svc__art--screens i:nth-child(2) { width: 74px; height: 54px; left: 52px; top: 9px; --ax: 12px; --ay: -6px; --d: 0s; }
+.svc__art--screens i:nth-child(3) { width: 42px; height: 72px; left: 118px; top: 0; --ax: 7px;  --ay: 3px;  --d: .16s; }
+.svc:hover .svc__art--screens i:nth-child(1) { transform: rotateY(18deg) translate3d(6px, 0, 0); }
+.svc:hover .svc__art--screens i:nth-child(2) { transform: translate3d(0, -10px, 0) scale(1.08); box-shadow: 0 24px 40px -18px rgba(0,0,0,.9); }
+.svc:hover .svc__art--screens i:nth-child(3) { transform: rotateY(-18deg) translate3d(-6px, 0, 0); }
+.svc:hover .svc__art--screens i::after { opacity: 1; animation: svc-glint 2.6s var(--ease) infinite; animation-delay: var(--d, 0s); }
+@keyframes svc-glint {
+  0%   { transform: translateX(-120%); }
+  50%, 100% { transform: translateX(120%); }
+}
+
+/* Движение по запросу: иллюстрации остаются статичными, только цветовые состояния */
+@media (prefers-reduced-motion: reduce) {
+  .svc__art i,
+  .svc__art i::after,
+  .svc__art--flow::before { translate: none !important; }
+  .svc:hover .svc__art i,
+  .svc:hover .svc__art--code i::after,
+  .svc:hover .svc__art--screens i::after,
+  .svc:hover .svc__art--flow::before { transform: none !important; animation: none !important; opacity: 0 !important; }
+  .svc:hover .svc__art--code i { opacity: .95 !important; }
+  .svc:hover .svc__art--flow::before { opacity: 0 !important; }
+  .svc:hover .svc__art--code i:nth-child(2) { width: 64%; }
+}
 
 /* ---------- 10. Process ---------- */
 .process { border-top: 1px solid var(--hair); }

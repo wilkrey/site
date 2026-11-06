@@ -610,3 +610,61 @@
     frameEl.addEventListener('mouseleave', function () { setNative(false); });
   });
 })();
+
+/* ---------- Иллюстрации карточек услуг: параллакс от курсора ----------
+   Курсор внутри карточки смещает слои иллюстрации (--px / --py в диапазоне -1..1).
+   Значения сглаживаются одним циклом requestAnimationFrame на карточку и возвращаются
+   к нулю при уходе курсора. Только точный указатель и без reduced-motion. */
+(function () {
+  'use strict';
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+  if (reduceMotion || !finePointer) return;
+
+  var EASE = 0.1;
+  var SETTLE = 0.002;
+
+  document.querySelectorAll('.svc').forEach(function (card) {
+    if (!card.querySelector('.svc__art')) return;
+
+    var cur = { x: 0, y: 0 };
+    var goal = { x: 0, y: 0 };
+    var raf = 0;
+
+    function apply() {
+      card.style.setProperty('--px', cur.x.toFixed(4));
+      card.style.setProperty('--py', cur.y.toFixed(4));
+    }
+
+    function tick() {
+      cur.x += (goal.x - cur.x) * EASE;
+      cur.y += (goal.y - cur.y) * EASE;
+      var settled = Math.abs(goal.x - cur.x) < SETTLE && Math.abs(goal.y - cur.y) < SETTLE;
+      if (settled) { cur.x = goal.x; cur.y = goal.y; }
+      apply();
+      if (settled) {
+        raf = 0;
+        if (goal.x === 0 && goal.y === 0) card.style.removeProperty('--px'), card.style.removeProperty('--py');
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    }
+
+    function aim(x, y) {
+      goal.x = x;
+      goal.y = y;
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+
+    card.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      var r = card.getBoundingClientRect();
+      var nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
+      var ny = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
+      aim(nx, ny);
+    });
+
+    card.addEventListener('pointerleave', function () { aim(0, 0); });
+  });
+})();
