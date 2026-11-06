@@ -169,8 +169,11 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   font-size: 14px; font-weight: 500; letter-spacing: .02em;
   isolation: isolate;
   overflow: hidden;
-  transition: transform .5s var(--ease), background .4s var(--ease), color .4s var(--ease), box-shadow .5s var(--ease);
-  will-change: transform;
+  /* transform is not transitioned here: the magnetic offset uses the separate `translate`
+     property (driven by script.js with its own easing), and the press uses `scale`.
+     Two transitions on one property restart each other and cause the stutter. */
+  transition: scale .5s var(--ease), background .4s var(--ease), color .4s var(--ease), box-shadow .5s var(--ease);
+  will-change: translate, scale;
 }
 .btn > span:not(.btn__sheen) { transition: transform .5s var(--ease); }
 .btn:hover > span:not(.btn__sheen) { transform: translateX(3px); }
@@ -183,7 +186,7 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   transition: opacity .5s var(--ease);
 }
 .btn:hover::after { opacity: 1; }
-.btn:active { transform: scale(.975); }
+.btn:active { scale: .975; }
 
 .btn--light {
   background: var(--warm);
@@ -464,10 +467,15 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   100%    { left: 130%; }
 }
 
+/* Индикатор прокрутки: выравнен по левому краю текстовой колонки (как .container),
+   а не по центру окна, где он пересекался с кнопкой и линзой. */
 .hero__meta {
-  position: absolute; left: 50%; bottom: 36px; translate: -50% 0;
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  position: absolute;
+  left: calc(50% - min(50% - var(--gutter), var(--max) / 2));
+  bottom: 32px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
   font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--text-faint);
+  pointer-events: none;
 }
 .hero__meta-line {
   width: 1px; height: 48px;
@@ -479,6 +487,12 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   0% { transform: scaleY(0); opacity: 1; }
   60% { transform: scaleY(1); opacity: 1; }
   100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* Низкие десктопные экраны: короче линия, чтобы подпись не заходила под кнопку */
+@media (min-width: 961px) and (max-height: 780px) {
+  .hero__meta { bottom: 24px; gap: 10px; }
+  .hero__meta-line { height: 32px; }
 }
 
 /* ---------- 6. Секции: общая разметка ---------- */
@@ -945,6 +959,31 @@ html:not(.js) .track__line span { transform: none; }
 }
 .order-success__text { margin: 0; max-width: 42ch; color: var(--text-dim); line-height: 1.6; }
 
+/* ---------- 11c. Custom cursor (только точный указатель, с JavaScript) ----------
+   Создаётся скриптом, поэтому без JS на странице обычный курсор. Не перехватывает клики. */
+.cursor {
+  position: fixed; left: 0; top: 0; z-index: 10000;
+  width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--champagne);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, scale;
+  transition: opacity .35s var(--ease), scale .55s var(--ease), background-color .4s var(--ease), box-shadow .45s var(--ease);
+}
+.cursor.is-on { opacity: .92; }
+.cursor.is-hover {
+  scale: 3.4;
+  background: rgba(201,184,169,.10);
+  box-shadow: inset 0 0 0 1px rgba(201,184,169,.55);
+}
+.cursor.is-down { scale: 2.2; }
+.cursor.is-hover.is-down { scale: 2.9; }
+.cursor.is-hidden { opacity: 0; }
+
+html.has-cursor:not(.cursor-native),
+html.has-cursor:not(.cursor-native) * { cursor: none !important; }
+
 /* ---------- 12. Footer ---------- */
 .footer { border-top: 1px solid var(--hair); padding: 56px 0 48px; }
 .footer__inner {
@@ -1059,7 +1098,10 @@ html:not(.js) .track__line span { transform: none; }
   .reveal, .fade { opacity: 1 !important; transform: none !important; filter: none !important; }
   .hero__title .mask__in { transform: none !important; }
   .obj__ring, .contact__ring, .obj__mark { animation: none !important; }
+  .cursor { display: none !important; }
+  html.has-cursor:not(.cursor-native), html.has-cursor:not(.cursor-native) * { cursor: auto !important; }
   .obj__sheen::after { display: none; }
   .hero__halo { animation: none; }
+  .hero__meta-line { animation: none; opacity: .7; }
   .hero__object .obj { transform: none !important; }
 }

@@ -42,7 +42,7 @@
     if (!burger || !nav) return;
     var focusInside = nav.contains(document.activeElement);
     burger.setAttribute('aria-expanded', String(open));
-    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    burger.setAttribute('aria-label', open ? 'Закрити меню' : 'Відкрити меню');
     nav.classList.toggle('is-open', open);
     if (open) {
       var first = nav.querySelector('.nav__link');
@@ -202,22 +202,55 @@
     }
   }
 
-  /* ---------- Магнитные кнопки и блик на курсоре (только мышь) ---------- */
+  /* ---------- Магнитные кнопки и блик на курсоре (только мышь) ----------
+     Смещение пишется в свойство translate (не в transform) и сглаживается одним циклом
+     requestAnimationFrame на кнопку. Цель меняется при каждом движении, поэтому выход и
+     повторный вход курсора продолжают текущий путь, а не запускают новый переход. */
   if (finePointer && !reduceMotion) {
+    var EASE = 0.18;      /* доля пути за кадр: чем больше, тем быстрее догоняет курсор */
+    var SETTLE = 0.05;    /* порог, после которого считаем, что кнопка пришла на место */
+
     document.querySelectorAll('.btn').forEach(function (btn) {
+      var cur = { x: 0, y: 0 };
+      var goal = { x: 0, y: 0 };
+      var raf = 0;
+
+      function apply() {
+        btn.style.translate = cur.x.toFixed(2) + 'px ' + cur.y.toFixed(2) + 'px';
+      }
+
+      function tick() {
+        cur.x += (goal.x - cur.x) * EASE;
+        cur.y += (goal.y - cur.y) * EASE;
+        var settled = Math.abs(goal.x - cur.x) < SETTLE && Math.abs(goal.y - cur.y) < SETTLE;
+        if (settled) { cur.x = goal.x; cur.y = goal.y; }
+        apply();
+        if (settled) {
+          raf = 0;
+          if (goal.x === 0 && goal.y === 0) btn.style.translate = '';
+          return;
+        }
+        raf = requestAnimationFrame(tick);
+      }
+
+      function aim(x, y) {
+        goal.x = x;
+        goal.y = y;
+        if (!raf) raf = requestAnimationFrame(tick);
+      }
+
       btn.addEventListener('pointermove', function (e) {
         var r = btn.getBoundingClientRect();
-        var x = e.clientX - r.left;
-        var y = e.clientY - r.top;
-        btn.style.setProperty('--mx', x + 'px');
-        btn.style.setProperty('--my', y + 'px');
-        var dx = (e.clientX - (r.left + r.width / 2)) * 0.12;
-        var dy = (e.clientY - (r.top + r.height / 2)) * 0.2;
-        btn.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)';
+        /* Centre without the current offset, so the button does not chase its own movement */
+        var cx = r.left + r.width / 2 - cur.x;
+        var cy = r.top + r.height / 2 - cur.y;
+        btn.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        btn.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        aim((e.clientX - cx) * 0.12, (e.clientY - cy) * 0.2);
       });
-      btn.addEventListener('pointerleave', function () {
-        btn.style.transform = '';
-      });
+
+      btn.addEventListener('pointerleave', function () { aim(0, 0); });
+      btn.addEventListener('pointercancel', function () { aim(0, 0); });
     });
   }
 })();
@@ -252,17 +285,17 @@
 
   var MSG = {
     required: {
-      name: 'Please enter your name.',
-      email: 'Please enter your email address.',
-      emailInvalid: 'Please enter a valid email address, for example name@example.com.',
-      projectType: 'Please choose a project type.',
-      description: 'Please describe your project.',
-      descriptionLong: 'Please keep the description under ' + MAX_DESCRIPTION + ' characters.'
+      name: 'Будь ласка, введіть імʼя.',
+      email: 'Будь ласка, введіть email.',
+      emailInvalid: 'Будь ласка, введіть коректний email, наприклад name@example.com.',
+      projectType: 'Будь ласка, оберіть тип проєкту.',
+      description: 'Будь ласка, опишіть проєкт.',
+      descriptionLong: 'Будь ласка, скоротіть опис до ' + MAX_DESCRIPTION + ' символів.'
     },
-    notConfigured: 'This form is not active yet. Please write to hello.wilkrey@gmail.com instead.',
-    network: 'We could not reach the server. Check your connection and try again. Your details are still filled in.',
-    rateLimit: 'Too many requests right now. Please wait a few minutes and try again.',
-    service: 'Your request was not sent. Please try again in a moment. Your details are still filled in.'
+    notConfigured: 'Форма ще не активна. Будь ласка, напишіть на hello.wilkrey@gmail.com.',
+    network: 'Не вдалося звʼязатися з сервером. Перевірте інтернет-з’єднання і спробуйте ще раз. Введені дані збережено.',
+    rateLimit: 'Забагато запитів поспіль. Будь ласка, зачекайте кілька хвилин і спробуйте знову.',
+    service: 'Заявку не надіслано. Спробуйте ще раз трохи пізніше. Введені дані збережено.'
   };
 
   /* ---------- Счётчик описания ---------- */
@@ -360,8 +393,8 @@
     sending = on;
     submitBtn.disabled = on;
     form.setAttribute('aria-busy', on ? 'true' : 'false');
-    submitLabel.textContent = on ? 'Sending…' : 'Send request';
-    statusEl.textContent = on ? 'Sending your request…' : '';
+    submitLabel.textContent = on ? 'Надсилаємо…' : 'Надіслати заявку';
+    statusEl.textContent = on ? 'Надсилаємо заявку…' : '';
   }
 
   function showAlert(message) {
@@ -393,7 +426,7 @@
   function onSuccess() {
     sending = false;
     submitBtn.disabled = false;
-    submitLabel.textContent = 'Send request';
+    submitLabel.textContent = 'Надіслати заявку';
     form.setAttribute('aria-busy', 'false');
     statusEl.textContent = '';
     clearAlert();
@@ -476,4 +509,98 @@
       document.getElementById('order-name').focus();
     });
   }
+})();
+
+
+/* ---------- Кастомный курсор (только точный указатель, без reduced-motion) ----------
+   Небольшой шарик следует за мышью с плавным догоняющим движением, увеличивается над
+   интерактивными элементами и сжимается при нажатии. Над полями ввода, iframe и вне окна
+   возвращается системный курсор. Элемент не принимает события мыши. */
+(function () {
+  'use strict';
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  if (reduceMotion || !finePointer || !canHover) return;
+
+  var root = document.documentElement;
+  var dot = document.createElement('div');
+  dot.className = 'cursor';
+  dot.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(dot);
+  root.classList.add('has-cursor');
+
+  var INTERACTIVE = 'a[href], button:not([disabled]), label, summary, [role="button"]';
+  var NATIVE = 'input, textarea, select, [contenteditable="true"]';
+
+  var goal = { x: -100, y: -100 };
+  var pos = { x: -100, y: -100 };
+  var raf = 0;
+  var shown = false;
+  var overNative = false;
+
+  function frame() {
+    pos.x += (goal.x - pos.x) * 0.24;
+    pos.y += (goal.y - pos.y) * 0.24;
+    dot.style.transform = 'translate3d(' + pos.x.toFixed(2) + 'px,' + pos.y.toFixed(2) + 'px,0)';
+    if (Math.abs(goal.x - pos.x) > 0.05 || Math.abs(goal.y - pos.y) > 0.05) {
+      raf = requestAnimationFrame(frame);
+    } else {
+      raf = 0;
+    }
+  }
+
+  function kick() {
+    if (!raf) raf = requestAnimationFrame(frame);
+  }
+
+  function setNative(on) {
+    overNative = on;
+    root.classList.toggle('cursor-native', on);
+    dot.classList.toggle('is-hidden', on);
+  }
+
+  function updateState(target) {
+    if (!target || !target.closest) return;
+    var native = target.closest(NATIVE);
+    setNative(!!native);
+    if (native) { dot.classList.remove('is-hover'); return; }
+    dot.classList.toggle('is-hover', !!target.closest(INTERACTIVE));
+  }
+
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+    goal.x = e.clientX;
+    goal.y = e.clientY;
+    if (!shown) {
+      pos.x = goal.x;
+      pos.y = goal.y;
+      shown = true;
+      dot.classList.add('is-on');
+    }
+    updateState(e.target);
+    kick();
+  }, { passive: true });
+
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') dot.classList.add('is-down');
+  }, { passive: true });
+  document.addEventListener('pointerup', function () { dot.classList.remove('is-down'); }, { passive: true });
+  document.addEventListener('pointercancel', function () { dot.classList.remove('is-down'); }, { passive: true });
+
+  /* Pointer left the browser window: hide the dot and restore the system cursor */
+  document.addEventListener('mouseout', function (e) {
+    if (!e.relatedTarget && !e.toElement) {
+      shown = false;
+      dot.classList.remove('is-on', 'is-hover', 'is-down');
+      setNative(false);
+    }
+  });
+
+  /* Embedded previews (iframes) receive their own pointer events: show the system cursor there */
+  document.querySelectorAll('iframe').forEach(function (frameEl) {
+    frameEl.addEventListener('mouseenter', function () { setNative(true); dot.classList.remove('is-hover'); });
+    frameEl.addEventListener('mouseleave', function () { setNative(false); });
+  });
 })();
