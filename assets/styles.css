@@ -540,8 +540,11 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   letter-spacing: .02em;
 }
 .preview__frame { position: relative; aspect-ratio: 16 / 10; background: var(--obsidian); }
+/* max-width: none overrides the global `img, svg, iframe { max-width: 100% }` rule. That rule capped
+   the 200% iframe at the frame width, so the site filled only half of the preview. */
 .preview__frame iframe {
   position: absolute; left: 0; top: 0;
+  max-width: none;
   width: 200%; height: 200%;
   border: 0;
   transform: scale(.5); transform-origin: 0 0;
@@ -674,15 +677,17 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   border: 1px solid var(--hair-strong);
   border-radius: 14px;
   background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
-  transition: transform .9s var(--ease), border-color .6s;
+  /* `translate` carries the per-element offsets, `transform` carries the common lift. They add up. */
+  transition: transform .9s var(--ease), translate .9s var(--ease), border-color .6s;
 }
-.svc:hover .svc__art i { border-color: rgba(201,184,169,.45); }
+/* Hover: every illustration element rises 4px (restored from the previous implementation) */
+.svc:hover .svc__art i { transform: translateY(-4px); border-color: rgba(201,184,169,.45); }
 
 /* Design: три слоя */
 .svc__art--design i:nth-child(1) { width: 60px; height: 44px; left: 0; top: 14px; }
 .svc__art--design i:nth-child(2) { width: 60px; height: 44px; left: 40px; top: 4px; }
 .svc__art--design i:nth-child(3) { width: 60px; height: 44px; left: 80px; top: 24px; }
-.svc:hover .svc__art--design i:nth-child(2) { transform: translateX(8px); }
+.svc:hover .svc__art--design i:nth-child(2) { translate: 8px 0; }
 
 /* Code: строки */
 .svc__art--code i { height: 2px; border: 0; border-radius: 2px; background: var(--silver); opacity: .5; left: 0; width: 60%; }
@@ -707,7 +712,7 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
 .svc__art--screens i:nth-child(1) { width: 42px; height: 72px; left: 0; top: 0; }
 .svc__art--screens i:nth-child(2) { width: 74px; height: 54px; left: 52px; top: 9px; }
 .svc__art--screens i:nth-child(3) { width: 42px; height: 72px; left: 118px; top: 0; }
-.svc:hover .svc__art--screens i:nth-child(2) { transform: translateY(-4px); }
+.svc:hover .svc__art--screens i:nth-child(2) { translate: 0 -4px; }
 
 /* ---------- 10. Process ---------- */
 .process { border-top: 1px solid var(--hair); }
