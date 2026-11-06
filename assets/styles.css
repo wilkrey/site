@@ -702,11 +702,12 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
 .svc:hover .svc__text { transform: translate3d(0, -2px, 0); color: var(--text); }
 
 /* Иллюстрации карточек услуг.
-   Два независимых слоя движения, которые складываются:
-   - translate: параллакс от положения курсора внутри карточки (script.js задаёт --px / --py);
-     амплитуда каждого элемента — своя (--ax / --ay), поэтому слои расходятся по глубине.
-   - transform: собственная анимация иллюстрации при наведении на карточку.
-   Геометрия элементов (размеры, положение) — без изменений. */
+   Три слоя движения, которые складываются:
+   - translate: параллакс от курсора внутри карточки (script.js задаёт --px / --py, амплитуда --ax / --ay);
+   - transform: состояние иллюстрации при наведении (плавный переход и такой же возврат при уходе);
+   - animation: непрерывные циклы (сканирование, бегущий импульс, пульсация). Циклы используют только transform
+     и стоят на паузе вне наведения: при уходе курсора они замирают и вместе с opacity плавно гаснут, без рывка.
+   Геометрия элементов (размеры, положение) не меняется. */
 .svc__art { position: relative; height: 72px; justify-self: end; width: 160px; perspective: 600px; }
 .svc__art i {
   position: absolute; display: block;
@@ -715,114 +716,165 @@ sup { font-size: .6em; vertical-align: top; line-height: 1; margin-left: .05em; 
   background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
   translate: calc(var(--px, 0) * var(--ax, 0px)) calc(var(--py, 0) * var(--ay, 0px));
   transition:
-    transform 1.1s var(--ease),
-    box-shadow .9s var(--ease),
-    border-color .7s var(--ease),
-    opacity .7s var(--ease),
-    width .9s var(--ease);
+    transform 1.4s var(--ease),
+    box-shadow 1.1s var(--ease),
+    border-color .8s var(--ease),
+    opacity .8s var(--ease),
+    width 1s var(--ease);
   transition-delay: var(--d, 0s);
   will-change: transform, translate;
 }
-.svc:hover .svc__art i { border-color: rgba(201,184,169,.45); }
 
-/* ---- Дизайн: три слоя, расходящиеся по глубине ---- */
-.svc__art--design i:nth-child(1) { width: 60px; height: 44px; left: 0;  top: 14px; --ax: -9px; --ay: 5px;  --d: 0s; }
-.svc__art--design i:nth-child(2) { width: 60px; height: 44px; left: 40px; top: 4px;  --ax: 14px; --ay: -7px; --d: .07s; }
-.svc__art--design i:nth-child(3) { width: 60px; height: 44px; left: 80px; top: 24px; --ax: 9px; --ay: 4px;  --d: .14s; }
-.svc:hover .svc__art--design i:nth-child(1) { transform: translate3d(-10px, 6px, 0) rotate(-8deg); }
-.svc:hover .svc__art--design i:nth-child(2) { transform: translate3d(0, -9px, 0) scale(1.07); box-shadow: 0 22px 40px -18px rgba(0,0,0,.9); }
-.svc:hover .svc__art--design i:nth-child(3) { transform: translate3d(10px, -3px, 0) rotate(8deg); }
+/* ---- Дизайн: три слоя веером по глубине. Средний выходит вперёд, боковые уходят назад и поворачиваются ---- */
+.svc__art--design i:nth-child(1) { width: 60px; height: 44px; left: 0;   top: 14px; --ax: -9px; --ay: 5px;  --d: .04s; }
+.svc__art--design i:nth-child(2) { width: 60px; height: 44px; left: 40px; top: 4px;  --ax: 14px; --ay: -7px; --d: 0s; }
+.svc__art--design i:nth-child(3) { width: 60px; height: 44px; left: 80px; top: 24px; --ax: 9px; --ay: 4px;  --d: .08s; }
+.svc:hover .svc__art--design i:nth-child(1) { transform: translate3d(-16px, 10px, -26px) rotateY(22deg) rotateZ(-8deg); }
+.svc:hover .svc__art--design i:nth-child(2) {
+  transform: translate3d(2px, -16px, 40px) rotateX(-6deg) scale(1.1);
+  border-color: rgba(201,184,169,.5);
+  box-shadow: 0 30px 48px -20px rgba(0,0,0,.95);
+}
+.svc:hover .svc__art--design i:nth-child(3) { transform: translate3d(8px, 6px, -20px) rotateY(-20deg) rotateZ(7deg); }
+/* На узких экранах иллюстрация стоит у левого края карточки: первый слой уходит вправо, а не за край */
+@media (max-width: 720px) {
+  .svc:hover .svc__art--design i:nth-child(1) { transform: translate3d(4px, 12px, -26px) rotateY(18deg) rotateZ(-6deg); }
+}
 
-/* ---- Frontend: строки кода, по которым проходит блик сканирования ---- */
+/* ---- Frontend: строки кода. При наведении строки расширяются волной, вложенные строки сдвигаются
+   как отступы кода, по каждой проходит блик сканирования ---- */
 .svc__art--code i {
   height: 2px; border: 0; border-radius: 2px; background: var(--silver); opacity: .5;
   left: 0; width: 60%; overflow: hidden;
-  transition: width .9s var(--ease), opacity .7s var(--ease), transform 1.1s var(--ease);
-  transition-delay: var(--d, 0s);   /* the shorthand above resets delays, so the stagger is restated */
+  transition: width 1.1s var(--ease), opacity .8s var(--ease), transform 1.3s var(--ease);
+  transition-delay: var(--d, 0s);   /* shorthand transitions above reset delays, so the stagger is restated */
 }
 .svc__art--code i::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(244,243,239,.9) 50%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(244,243,239,.95) 50%, transparent);
   transform: translateX(-100%); opacity: 0;
+  transition: opacity .8s var(--ease);
+  animation: svc-scan 2.2s var(--ease) infinite paused;
+  animation-delay: var(--d, 0s);
 }
-.svc__art--code i:nth-child(1) { top: 8px;  width: 70%; --ax: 6px;  --ay: 0; --d: .00s; }
-.svc__art--code i:nth-child(2) { top: 24px; width: 40%; background: var(--champagne); opacity: .8; --ax: 10px; --ay: 0; --d: .10s; }
-.svc__art--code i:nth-child(3) { top: 40px; width: 85%; --ax: 4px;  --ay: 0; --d: .20s; }
-.svc__art--code i:nth-child(4) { top: 56px; width: 55%; --ax: 8px;  --ay: 0; --d: .30s; }
-.svc:hover .svc__art--code i { opacity: .95; }
-.svc:hover .svc__art--code i:nth-child(2) { width: 64%; }
-.svc:hover .svc__art--code i::after { opacity: 1; animation: svc-scan 2.4s var(--ease) infinite; animation-delay: var(--d, 0s); }
-.svc:hover .svc__art--code i:nth-child(2)::after { animation-delay: calc(var(--d) + .4s); }
+.svc__art--code i:nth-child(1) { top: 8px;  width: 70%; --ax: 6px;  --ay: 0; --d: 0s;   --indent: 0px; }
+.svc__art--code i:nth-child(2) { top: 24px; width: 40%; background: var(--champagne); opacity: .8; --ax: 10px; --ay: 0; --d: .1s; --indent: 14px; }
+.svc__art--code i:nth-child(3) { top: 40px; width: 85%; --ax: 4px;  --ay: 0; --d: .2s; --indent: 14px; }
+.svc__art--code i:nth-child(4) { top: 56px; width: 55%; --ax: 8px;  --ay: 0; --d: .3s; --indent: 28px; }
+.svc:hover .svc__art--code i { opacity: .95; transform: translate3d(var(--indent, 0px), 0, 0); }
+.svc:hover .svc__art--code i:nth-child(1) { width: 78%; }
+.svc:hover .svc__art--code i:nth-child(2) { width: 58%; }
+.svc:hover .svc__art--code i:nth-child(3) { width: 92%; }
+.svc:hover .svc__art--code i:nth-child(4) { width: 66%; }
+.svc:hover .svc__art--code i::after { opacity: 1; animation-play-state: running; }
 @keyframes svc-scan {
-  0%   { transform: translateX(-100%); }
-  55%, 100% { transform: translateX(100%); }
+  0%        { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
 }
 
-/* ---- Flow: связанные узлы, по связи бежит свечение ---- */
+/* ---- Flow: связанные узлы. Линия связи «прорисовывается», узлы сближаются и поднимаются,
+   каждый узел дышит ореолом, по связи бежит импульс ---- */
 .svc__art--flow i { width: 26px; height: 26px; border-radius: 50%; top: 23px; }
-.svc__art--flow i:nth-child(1) { left: 0;   --ax: -6px; --ay: 0; --d: 0s; }
+.svc__art--flow i:nth-child(1) { left: 0;   --ax: -6px; --ay: 0;  --d: 0s; }
 .svc__art--flow i:nth-child(2) { left: 67px; border-color: rgba(201,184,169,.5); --ax: 0; --ay: -6px; --d: .16s; }
 .svc__art--flow i:nth-child(3) { left: 134px; --ax: 6px; --ay: 0; --d: .08s; }
-.svc:hover .svc__art--flow i:nth-child(1) { transform: translate3d(6px, 0, 0); }
-.svc:hover .svc__art--flow i:nth-child(3) { transform: translate3d(-6px, 0, 0); }
+.svc:hover .svc__art--flow i:nth-child(1) { transform: translate3d(9px, -4px, 0); }
+.svc:hover .svc__art--flow i:nth-child(3) { transform: translate3d(-9px, -4px, 0); }
 .svc:hover .svc__art--flow i:nth-child(2) {
   transform: scale(1.22);
   border-color: rgba(201,184,169,.85);
   box-shadow: 0 0 0 6px rgba(201,184,169,.07), 0 0 26px rgba(201,184,169,.35);
 }
+/* Ореол узла: медленно дышит, вне наведения на паузе */
+.svc__art--flow i::before {
+  content: ""; position: absolute; inset: -7px; border-radius: 50%;
+  border: 1px solid transparent;
+  opacity: 0;
+  transition: opacity .8s var(--ease), border-color .8s var(--ease);
+  animation: svc-breathe 2.4s ease-in-out infinite alternate paused;
+  animation-delay: calc(var(--d, 0s) * 4);
+}
+.svc:hover .svc__art--flow i::before { opacity: 1; border-color: rgba(201,184,169,.32); animation-play-state: running; }
+@keyframes svc-breathe {
+  from { transform: scale(1); }
+  to   { transform: scale(1.16); }
+}
+/* Линия связи: рисуется слева направо при наведении */
 .svc__art--flow::after {
   content: ""; position: absolute; left: 26px; right: 26px; top: 35px; height: 1px;
   background: linear-gradient(90deg, var(--hair-strong), var(--champagne), var(--hair-strong));
-  transition: opacity .7s var(--ease);
+  transform: scaleX(.35); transform-origin: left;
+  opacity: .55;
+  transition: transform 1.4s var(--ease), opacity .8s var(--ease);
 }
+.svc:hover .svc__art--flow::after { transform: scaleX(1); opacity: 1; }
+/* Импульс по связи: туда и обратно, без рывка в конце цикла */
 .svc__art--flow::before {
   content: ""; position: absolute; left: 26px; top: 34px; width: 26px; height: 3px; border-radius: 3px;
   background: radial-gradient(circle, var(--champagne) 0%, transparent 70%);
   opacity: 0;
   pointer-events: none;
+  transition: opacity .8s var(--ease);
+  animation: svc-travel 1.8s ease-in-out infinite alternate paused;
 }
-.svc:hover .svc__art--flow::before { opacity: 1; animation: svc-travel 1.8s var(--ease) infinite; }
+.svc:hover .svc__art--flow::before { opacity: 1; animation-play-state: running; }
 @keyframes svc-travel {
-  0%   { transform: translateX(0); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { transform: translateX(82px); opacity: 0; }
+  from { transform: translateX(0); }
+  to   { transform: translateX(82px); }
 }
 
-/* ---- Screens: три экрана в перспективе, боковые поворачиваются ---- */
+/* ---- Screens: три экрана в перспективе. Боковые поворачиваются к центру, центральный выходит вперёд,
+   на каждом экране «загружается» строка интерфейса, по стеклу проходит блик ---- */
 .svc__art--screens i { border-radius: 10px; overflow: hidden; }
+.svc__art--screens i::before {
+  content: ""; position: absolute; left: 8px; right: 8px; top: 9px; height: 3px; border-radius: 3px;
+  background: rgba(244,243,239,.18);
+  transform: scaleX(.25); transform-origin: left;
+  opacity: 0;
+  transition: transform 1.1s var(--ease) .25s, opacity .8s var(--ease) .25s;
+}
 .svc__art--screens i::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(115deg, transparent 35%, rgba(244,243,239,.16) 50%, transparent 65%);
+  background: linear-gradient(115deg, transparent 35%, rgba(244,243,239,.2) 50%, transparent 65%);
   transform: translateX(-120%);
   opacity: 0;
+  transition: opacity .8s var(--ease);
+  animation: svc-glint 2.6s var(--ease) infinite paused;
+  animation-delay: var(--d, 0s);
 }
-.svc__art--screens i:nth-child(1) { width: 42px; height: 72px; left: 0;   top: 0;  --ax: -7px; --ay: 3px;  --d: .08s; }
+.svc__art--screens i:nth-child(1) { width: 42px; height: 72px; left: 0;   top: 0; --ax: -7px; --ay: 3px; --d: .08s; }
 .svc__art--screens i:nth-child(2) { width: 74px; height: 54px; left: 52px; top: 9px; --ax: 12px; --ay: -6px; --d: 0s; }
-.svc__art--screens i:nth-child(3) { width: 42px; height: 72px; left: 118px; top: 0; --ax: 7px;  --ay: 3px;  --d: .16s; }
-.svc:hover .svc__art--screens i:nth-child(1) { transform: rotateY(18deg) translate3d(6px, 0, 0); }
-.svc:hover .svc__art--screens i:nth-child(2) { transform: translate3d(0, -10px, 0) scale(1.08); box-shadow: 0 24px 40px -18px rgba(0,0,0,.9); }
-.svc:hover .svc__art--screens i:nth-child(3) { transform: rotateY(-18deg) translate3d(-6px, 0, 0); }
-.svc:hover .svc__art--screens i::after { opacity: 1; animation: svc-glint 2.6s var(--ease) infinite; animation-delay: var(--d, 0s); }
+.svc__art--screens i:nth-child(3) { width: 42px; height: 72px; left: 118px; top: 0; --ax: 7px; --ay: 3px; --d: .16s; }
+.svc:hover .svc__art--screens i:nth-child(1) { transform: translate3d(6px, 4px, -18px) rotateY(26deg); }
+.svc:hover .svc__art--screens i:nth-child(2) {
+  transform: translate3d(0, -12px, 42px) scale(1.06);
+  box-shadow: 0 30px 48px -20px rgba(0,0,0,.95);
+}
+.svc:hover .svc__art--screens i:nth-child(3) { transform: translate3d(-6px, 4px, -18px) rotateY(-26deg); }
+.svc:hover .svc__art--screens i::before { transform: scaleX(1); opacity: 1; }
+.svc:hover .svc__art--screens i::after { opacity: 1; animation-play-state: running; }
 @keyframes svc-glint {
-  0%   { transform: translateX(-120%); }
+  0%        { transform: translateX(-120%); }
   50%, 100% { transform: translateX(120%); }
 }
 
-/* Движение по запросу: иллюстрации остаются статичными, только цветовые состояния */
+/* Движение по запросу: циклы и смещения отключены, состояния цвета и линии остаются */
 @media (prefers-reduced-motion: reduce) {
   .svc__art i,
+  .svc__art i::before,
   .svc__art i::after,
-  .svc__art--flow::before { translate: none !important; }
+  .svc__art--flow::before,
+  .svc__art--flow::after { translate: none !important; animation: none !important; }
+  .svc:hover .svc__art i { transform: none !important; }
+  .svc:hover .svc__art--code i { opacity: .95 !important; }
+  .svc:hover .svc__art--flow i::before { opacity: 1 !important; }
+  .svc:hover .svc__art--flow::before { opacity: 0 !important; }
+  .svc:hover .svc__art--flow::after { transform: scaleX(1) !important; }
+  .svc:hover .svc__art--screens i::before { transform: scaleX(1) !important; opacity: 1 !important; }
+  .svc:hover .svc__art--code i::after,
+  .svc:hover .svc__art--screens i::after { opacity: 0 !important; }
   .svc:hover::before { animation: none !important; }
   .svc:hover .svc__num, .svc:hover .svc__title, .svc:hover .svc__text { transform: none !important; }
-  .svc:hover .svc__art i,
-  .svc:hover .svc__art--code i::after,
-  .svc:hover .svc__art--screens i::after,
-  .svc:hover .svc__art--flow::before { transform: none !important; animation: none !important; opacity: 0 !important; }
-  .svc:hover .svc__art--code i { opacity: .95 !important; }
-  .svc:hover .svc__art--flow::before { opacity: 0 !important; }
-  .svc:hover .svc__art--code i:nth-child(2) { width: 64%; }
 }
 
 /* ---------- 10. Process ---------- */
