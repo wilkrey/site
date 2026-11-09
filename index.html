@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&family=Jost:wght@300;400&display=swap">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/language.css">
   <script type="application/ld+json">
 [
   {
@@ -52,20 +53,28 @@
   </script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Перейти до основного вмісту</a>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Перейти до основного вмісту</a>
 
   <header class="header" id="header">
     <div class="container header__inner">
-      <a href="#top" class="logo" aria-label="WILKREY, на головну">WILKREY<sup>®</sup></a>
-      <nav class="nav" id="nav" aria-label="Головна навігація">
-        <a href="#work" class="nav__link">Роботи</a>
-        <a href="#studio" class="nav__link">Студія</a>
-        <a href="#services" class="nav__link">Послуги</a>
-        <a href="#process" class="nav__link">Процес</a>
-        <a href="#contact" class="nav__link">Контакти</a>
+      <a href="#top" class="logo" aria-label="WILKREY, на головну" data-i18n-attr="aria-label:a11y.logo">WILKREY<sup>®</sup></a>
+      <nav class="nav" id="nav" aria-label="Головна навігація" data-i18n-attr="aria-label:a11y.mainNav">
+        <a href="#work" class="nav__link" data-i18n="nav.work">Роботи</a>
+        <a href="#studio" class="nav__link" data-i18n="nav.studio">Студія</a>
+        <a href="#services" class="nav__link" data-i18n="nav.services">Послуги</a>
+        <a href="#process" class="nav__link" data-i18n="nav.process">Процес</a>
+        <a href="#contact" class="nav__link" data-i18n="nav.contact">Контакти</a>
       </nav>
-      <a href="#order" class="btn btn--glass btn--sm header__cta"><span>Замовити сайт</span></a>
-      <button class="burger" id="burger" aria-label="Відкрити меню" aria-expanded="false" aria-controls="nav">
+      <div class="header__actions">
+      <button class="lang-switch" id="lang-switch" type="button" aria-label="Перемкнути на англійську" title="Перемкнути на англійську">
+        <span class="lang-switch__flag" id="lang-flag" aria-hidden="true">
+          <svg viewBox="0 0 3 2" preserveAspectRatio="none" data-lang="uk" focusable="false"><rect width="3" height="1" fill="#005BBB"/><rect y="1" width="3" height="1" fill="#FFD500"/></svg>
+          <svg viewBox="0 0 60 30" preserveAspectRatio="none" data-lang="en" hidden focusable="false"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFFFFF" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/><path d="M30,0 V30 M0,15 H60" stroke="#FFFFFF" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/></svg>
+        </span>
+      </button>
+      <a href="#order" class="btn btn--glass btn--sm header__cta"><span data-i18n="cta.order">Замовити сайт</span></a>
+      </div>
+      <button class="burger" id="burger" aria-label="Відкрити меню" aria-expanded="false" aria-controls="nav" data-i18n-attr="aria-label:nav.open">
         <span></span><span></span>
       </button>
     </div>
@@ -81,14 +90,14 @@
 
       <div class="container hero__content">
         <div class="hero__copy">
-          <p class="hero__tag fade" style="--d:.1s">Цифрова студія&nbsp;/&nbsp;Дизайн&nbsp;·&nbsp;Розробка&nbsp;·&nbsp;Моушн</p>
+          <p class="hero__tag fade" style="--d:.1s" data-i18n="hero.tag">Цифрова студія&nbsp;/&nbsp;Дизайн&nbsp;·&nbsp;Розробка&nbsp;·&nbsp;Моушн</p>
           <h1 class="hero__title">
             <span class="mask"><span class="mask__in" style="--d:.25s">WILKREY<sup>®</sup></span></span>
           </h1>
-          <p class="hero__headline fade" style="--d:.55s">Цифрові враження,<br>створені з точністю.</p>
+          <p class="hero__headline fade" style="--d:.55s" data-i18n="hero.headline">Цифрові враження,<br>створені з точністю.</p>
           <div class="hero__bottom fade" style="--d:.75s">
-            <p class="hero__text">Ми створюємо сучасні цифрові продукти, що поєднують дизайн, технології та увагу до деталей.</p>
-            <a href="#work" class="btn btn--light"><span>Переглянути роботи</span> <span aria-hidden="true">→</span></a>
+            <p class="hero__text" data-i18n="hero.text">Ми створюємо сучасні цифрові продукти, що поєднують дизайн, технології та увагу до деталей.</p>
+            <a href="#work" class="btn btn--light"><span data-i18n="hero.cta">Переглянути роботи</span> <span aria-hidden="true">→</span></a>
           </div>
         </div>
 
@@ -104,7 +113,7 @@
       </div>
 
       <div class="hero__meta container fade" style="--d:.95s">
-        <span>Прокрутіть</span>
+        <span data-i18n="hero.scroll">Прокрутіть</span>
         <span class="hero__meta-line" aria-hidden="true"></span>
       </div>
     </section>
@@ -113,9 +122,9 @@
     <section class="section work" id="work" aria-labelledby="work-title">
       <div class="container">
         <header class="section__head reveal">
-          <p class="kicker">01 — Обрані роботи</p>
-          <h2 class="h2" id="work-title">Обрані концептуальні роботи.</h2>
-          <p class="note">Незалежні концептуальні проєкти: ініціативні роботи WILKREY, створені для пошуку візуального напряму. Це не комерційні замовлення.</p>
+          <p class="kicker" data-i18n="work.kicker">01 — Обрані роботи</p>
+          <h2 class="h2" id="work-title" data-i18n="work.title">Обрані концептуальні роботи.</h2>
+          <p class="note" data-i18n="work.note">Незалежні концептуальні проєкти: ініціативні роботи WILKREY, створені для пошуку візуального напряму. Це не комерційні замовлення.</p>
         </header>
 
         <article class="feature reveal" id="case-noir">
@@ -123,15 +132,15 @@
             <div class="preview" data-preview>
               <div class="preview__bar"><span></span><span></span><span></span><em>wilkrey.github.io/noir-cafe</em></div>
               <div class="preview__frame">
-                <iframe data-src="https://wilkrey.github.io/noir-cafe/" title="Попередній перегляд концептуального сайту NOIR Café" loading="lazy" referrerpolicy="no-referrer" tabindex="-1"></iframe>
+                <iframe data-src="https://wilkrey.github.io/noir-cafe/" title="Попередній перегляд концептуального сайту NOIR Café" data-i18n-attr="title:work.noir.frame" loading="lazy" referrerpolicy="no-referrer" tabindex="-1"></iframe>
               </div>
             </div>
           </div>
           <div class="feature__body glass">
-            <p class="kicker">Незалежний концептуальний проєкт · Спешелті-кавʼярня</p>
+            <p class="kicker" data-i18n="work.noir.kicker">Незалежний концептуальний проєкт · Спешелті-кавʼярня</p>
             <h3 class="feature__title">NOIR Café</h3>
-            <p class="feature__text">Концептуальний сайт для преміальної спешелті-кавʼярні. Темна палітра, велика типографіка та повільний ритм прокрутки задають настрій місця.</p>
-            <a href="https://wilkrey.github.io/noir-cafe/" class="link-arrow" target="_blank" rel="noopener noreferrer">Переглянути концепт <span aria-hidden="true">↗</span><span class="sr-only"> (відкриється в новій вкладці)</span></a>
+            <p class="feature__text" data-i18n="work.noir.text">Концептуальний сайт для преміальної спешелті-кавʼярні. Темна палітра, велика типографіка та повільний ритм прокрутки задають настрій місця.</p>
+            <a href="https://wilkrey.github.io/noir-cafe/" class="link-arrow" target="_blank" rel="noopener noreferrer"><span data-i18n="work.view">Переглянути концепт</span> <span aria-hidden="true">↗</span><span class="sr-only" data-i18n="a11y.newtab"> (відкриється в новій вкладці)</span></a>
           </div>
         </article>
 
@@ -140,15 +149,15 @@
             <div class="preview" data-preview>
               <div class="preview__bar"><span></span><span></span><span></span><em>wilkrey.github.io/fleure</em></div>
               <div class="preview__frame">
-                <iframe data-src="https://wilkrey.github.io/fleure/" title="Попередній перегляд концептуального сайту FLEURÉ" loading="lazy" referrerpolicy="no-referrer" tabindex="-1"></iframe>
+                <iframe data-src="https://wilkrey.github.io/fleure/" title="Попередній перегляд концептуального сайту FLEURÉ" data-i18n-attr="title:work.fleure.frame" loading="lazy" referrerpolicy="no-referrer" tabindex="-1"></iframe>
               </div>
             </div>
           </div>
           <div class="feature__body glass">
-            <p class="kicker">Незалежний концептуальний проєкт · Квіткова студія</p>
+            <p class="kicker" data-i18n="work.fleure.kicker">Незалежний концептуальний проєкт · Квіткова студія</p>
             <h3 class="feature__title">FLEURÉ</h3>
-            <p class="feature__text">Концептуальний сайт для сучасної квіткової студії. М’яка композиція, відкрита сітка та спокійні переходи допомагають обрати букет без зайвих відволікань.</p>
-            <a href="https://wilkrey.github.io/fleure/" class="link-arrow" target="_blank" rel="noopener noreferrer">Переглянути концепт <span aria-hidden="true">↗</span><span class="sr-only"> (відкриється в новій вкладці)</span></a>
+            <p class="feature__text" data-i18n="work.fleure.text">Концептуальний сайт для сучасної квіткової студії. М’яка композиція, відкрита сітка та спокійні переходи допомагають обрати букет без зайвих відволікань.</p>
+            <a href="https://wilkrey.github.io/fleure/" class="link-arrow" target="_blank" rel="noopener noreferrer"><span data-i18n="work.view">Переглянути концепт</span> <span aria-hidden="true">↗</span><span class="sr-only" data-i18n="a11y.newtab"> (відкриється в новій вкладці)</span></a>
           </div>
         </article>
       </div>
@@ -157,13 +166,13 @@
     <!-- STUDIO -->
     <section class="section studio" id="studio" aria-labelledby="studio-title">
       <div class="container">
-        <p class="kicker reveal">02 — Студія</p>
-        <h2 class="statement reveal" id="studio-title">Ми віримо, що чудові цифрові враження <span class="accent">створюються навмисно.</span></h2>
+        <p class="kicker reveal" data-i18n="studio.kicker">02 — Студія</p>
+        <h2 class="statement reveal" id="studio-title" data-i18n="studio.statement">Ми віримо, що чудові цифрові враження <span class="accent">створюються навмисно.</span></h2>
         <ul class="principles">
-          <li class="principle reveal"><span class="principle__n">i</span><h3>Дизайн із метою</h3><p>Кожен екран починається з одного питання: яке завдання він вирішує?</p></li>
-          <li class="principle reveal"><span class="principle__n">ii</span><h3>Увага до деталей</h3><p>Типографіка, ритм відступів і стани елементів перевіряються до найдрібніших деталей.</p></li>
-          <li class="principle reveal"><span class="principle__n">iii</span><h3>Технології, що служать людям</h3><p>Інструменти обираються під завдання, а не під тренди.</p></li>
-          <li class="principle reveal"><span class="principle__n">iv</span><h3>Швидкість і зручність</h3><p>Швидке завантаження та зрозуміла навігація важливіші за додаткові ефекти.</p></li>
+          <li class="principle reveal"><span class="principle__n">i</span><h3 data-i18n="studio.p1.h">Дизайн із метою</h3><p data-i18n="studio.p1.t">Кожен екран починається з одного питання: яке завдання він вирішує?</p></li>
+          <li class="principle reveal"><span class="principle__n">ii</span><h3 data-i18n="studio.p2.h">Увага до деталей</h3><p data-i18n="studio.p2.t">Типографіка, ритм відступів і стани елементів перевіряються до найдрібніших деталей.</p></li>
+          <li class="principle reveal"><span class="principle__n">iii</span><h3 data-i18n="studio.p3.h">Технології, що служать людям</h3><p data-i18n="studio.p3.t">Інструменти обираються під завдання, а не під тренди.</p></li>
+          <li class="principle reveal"><span class="principle__n">iv</span><h3 data-i18n="studio.p4.h">Швидкість і зручність</h3><p data-i18n="studio.p4.t">Швидке завантаження та зрозуміла навігація важливіші за додаткові ефекти.</p></li>
         </ul>
       </div>
     </section>
@@ -172,33 +181,33 @@
     <section class="section services" id="services" aria-labelledby="services-title">
       <div class="container">
         <header class="section__head reveal">
-          <p class="kicker">03 — Послуги</p>
-          <h2 class="h2" id="services-title">Чотири напрями роботи.</h2>
+          <p class="kicker" data-i18n="svc.kicker">03 — Послуги</p>
+          <h2 class="h2" id="services-title" data-i18n="svc.title">Чотири напрями роботи.</h2>
         </header>
 
         <ul class="svc-list">
           <li class="svc reveal">
             <span class="svc__num">01</span>
-            <h3 class="svc__title">Дизайн сайтів</h3>
-            <p class="svc__text">Концепція, композиція сторінок і візуальна система, побудовані навколо бізнес-цілей.</p>
+            <h3 class="svc__title" data-i18n="svc.1.h">Дизайн сайтів</h3>
+            <p class="svc__text" data-i18n="svc.1.t">Концепція, композиція сторінок і візуальна система, побудовані навколо бізнес-цілей.</p>
             <span class="svc__art svc__art--design" aria-hidden="true"><i></i><i></i><i></i></span>
           </li>
           <li class="svc reveal">
             <span class="svc__num">02</span>
-            <h3 class="svc__title">Frontend-розробка</h3>
-            <p class="svc__text">Чистий HTML, CSS і JavaScript без зайвих залежностей, із увагою до швидкості.</p>
+            <h3 class="svc__title" data-i18n="svc.2.h">Frontend-розробка</h3>
+            <p class="svc__text" data-i18n="svc.2.t">Чистий HTML, CSS і JavaScript без зайвих залежностей, із увагою до швидкості.</p>
             <span class="svc__art svc__art--code" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
           </li>
           <li class="svc reveal">
             <span class="svc__num">03</span>
-            <h3 class="svc__title">UI/UX-дизайн</h3>
-            <p class="svc__text">Користувацькі сценарії, стани інтерфейсу та прототипи, які перевіряються до розробки.</p>
+            <h3 class="svc__title" data-i18n="svc.3.h">UI/UX-дизайн</h3>
+            <p class="svc__text" data-i18n="svc.3.t">Користувацькі сценарії, стани інтерфейсу та прототипи, які перевіряються до розробки.</p>
             <span class="svc__art svc__art--flow" aria-hidden="true"><i></i><i></i><i></i></span>
           </li>
           <li class="svc reveal">
             <span class="svc__num">04</span>
-            <h3 class="svc__title">Адаптивні цифрові рішення</h3>
-            <p class="svc__text">Повноцінні композиції для мобільних, планшетів і десктопів, а не зменшені копії.</p>
+            <h3 class="svc__title" data-i18n="svc.4.h">Адаптивні цифрові рішення</h3>
+            <p class="svc__text" data-i18n="svc.4.t">Повноцінні композиції для мобільних, планшетів і десктопів, а не зменшені копії.</p>
             <span class="svc__art svc__art--screens" aria-hidden="true"><i></i><i></i><i></i></span>
           </li>
         </ul>
@@ -209,16 +218,16 @@
     <section class="section process" id="process" aria-labelledby="process-title">
       <div class="container">
         <header class="section__head reveal">
-          <p class="kicker">04 — Процес</p>
-          <h2 class="h2" id="process-title">Від ідеї до запуску.</h2>
+          <p class="kicker" data-i18n="process.kicker">04 — Процес</p>
+          <h2 class="h2" id="process-title" data-i18n="process.title">Від ідеї до запуску.</h2>
         </header>
         <div class="track" id="track">
           <div class="track__line" aria-hidden="true"><span id="track-fill"></span></div>
           <ol class="steps">
-            <li class="step reveal"><span class="step__num">01</span><h3>Дослідження</h3><p>Цілі, аудиторія та вимоги. Ми точно визначаємо, що має робити сайт.</p></li>
-            <li class="step reveal"><span class="step__num">02</span><h3>Дизайн</h3><p>Композиція, типографіка та палітра. Візуальна мова узгоджується до початку коду.</p></li>
-            <li class="step reveal"><span class="step__num">03</span><h3>Розробка</h3><p>Побудова, анімації та адаптивна поведінка, перевірені на реальних пристроях.</p></li>
-            <li class="step reveal"><span class="step__num">04</span><h3>Запуск</h3><p>Публікація, перевірка посилань і продуктивності та передача вихідних файлів.</p></li>
+            <li class="step reveal"><span class="step__num">01</span><h3 data-i18n="step.1.h">Дослідження</h3><p data-i18n="step.1.t">Цілі, аудиторія та вимоги. Ми точно визначаємо, що має робити сайт.</p></li>
+            <li class="step reveal"><span class="step__num">02</span><h3 data-i18n="step.2.h">Дизайн</h3><p data-i18n="step.2.t">Композиція, типографіка та палітра. Візуальна мова узгоджується до початку коду.</p></li>
+            <li class="step reveal"><span class="step__num">03</span><h3 data-i18n="step.3.h">Розробка</h3><p data-i18n="step.3.t">Побудова, анімації та адаптивна поведінка, перевірені на реальних пристроях.</p></li>
+            <li class="step reveal"><span class="step__num">04</span><h3 data-i18n="step.4.h">Запуск</h3><p data-i18n="step.4.t">Публікація, перевірка посилань і продуктивності та передача вихідних файлів.</p></li>
           </ol>
         </div>
       </div>
@@ -229,17 +238,17 @@
       <div class="container">
         <div class="contact__scene reveal">
           <div class="contact__ring" aria-hidden="true"></div>
-          <p class="kicker">05 — Контакти</p>
-          <h2 class="contact__title" id="contact-title">Маєте задум?</h2>
-          <p class="contact__lead">Перетворімо вашу ідею на щось значуще.</p>
-          <div class="contact__links" role="group" aria-label="Контакти WILKREY">
+          <p class="kicker" data-i18n="contact.kicker">05 — Контакти</p>
+          <h2 class="contact__title" id="contact-title" data-i18n="contact.title">Маєте задум?</h2>
+          <p class="contact__lead" data-i18n="contact.lead">Перетворімо вашу ідею на щось значуще.</p>
+          <div class="contact__links" role="group" aria-label="Контакти WILKREY" data-i18n-attr="aria-label:a11y.contacts">
             <div class="contact__item">
-              <span class="contact__label">Email</span>
+              <span class="contact__label" data-i18n="contact.email">Email</span>
               <a class="contact__link" href="mailto:hello.wilkrey@gmail.com">hello.wilkrey@gmail.com</a>
             </div>
             <div class="contact__item">
-              <span class="contact__label">Telegram</span>
-              <a class="contact__link" href="https://t.me/wilkrey" target="_blank" rel="noopener noreferrer">@wilkrey <span aria-hidden="true">↗</span><span class="sr-only"> (відкриється в новій вкладці)</span></a>
+              <span class="contact__label" data-i18n="contact.telegram">Telegram</span>
+              <a class="contact__link" href="https://t.me/wilkrey" target="_blank" rel="noopener noreferrer">@wilkrey <span aria-hidden="true">↗</span><span class="sr-only" data-i18n="a11y.newtab"> (відкриється в новій вкладці)</span></a>
             </div>
           </div>
         </div>
@@ -250,9 +259,9 @@
     <section class="section order" id="order" aria-labelledby="order-title">
       <div class="container order__grid">
         <div class="order__intro reveal">
-          <p class="kicker">06 — Замовити сайт</p>
-          <h2 class="h2 order__title" id="order-title">Створімо щось виняткове.</h2>
-          <p class="order__lead">Коротко розкажіть про свій проєкт. Ми розглянемо заявку й відповімо на email.</p>
+          <p class="kicker" data-i18n="order.kicker">06 — Замовити сайт</p>
+          <h2 class="h2 order__title" id="order-title" data-i18n="order.title">Створімо щось виняткове.</h2>
+          <p class="order__lead" data-i18n="order.lead">Коротко розкажіть про свій проєкт. Ми розглянемо заявку й відповімо на email.</p>
         </div>
 
         <div class="order__panel reveal">
@@ -262,49 +271,49 @@
 
             <!-- Honeypot: hidden from people and screen readers. Bots tend to fill it. -->
             <div class="order-form__hp" hidden>
-              <label>Залиште це поле порожнім <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>
+              <label><span data-i18n="order.hp">Залиште це поле порожнім</span> <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>
             </div>
 
             <div class="field">
-              <label class="field__label" for="order-name">Імʼя <span class="field__req" aria-hidden="true">*</span><span class="sr-only"> (обов’язкове)</span></label>
-              <input class="field__input" type="text" id="order-name" name="name" autocomplete="name" placeholder="Наприклад, Оксана Коваль" maxlength="100" required aria-required="true" aria-describedby="order-name-err">
+              <label class="field__label" for="order-name"><span data-i18n="order.name.label">Імʼя</span> <span class="field__req" aria-hidden="true">*</span><span class="sr-only" data-i18n="a11y.required"> (обов’язкове)</span></label>
+              <input class="field__input" type="text" id="order-name" name="name" autocomplete="name" placeholder="Наприклад, Оксана Коваль" data-i18n-attr="placeholder:order.name.ph" maxlength="100" required aria-required="true" aria-describedby="order-name-err">
               <p class="field__error" id="order-name-err" hidden></p>
             </div>
 
             <div class="field">
-              <label class="field__label" for="order-email">Email <span class="field__req" aria-hidden="true">*</span><span class="sr-only"> (обов’язкове)</span></label>
+              <label class="field__label" for="order-email"><span data-i18n="contact.email">Email</span> <span class="field__req" aria-hidden="true">*</span><span class="sr-only" data-i18n="a11y.required"> (обов’язкове)</span></label>
               <input class="field__input" type="email" id="order-email" name="email" autocomplete="email" placeholder="name@example.com" maxlength="254" required aria-required="true" aria-describedby="order-email-err">
               <p class="field__error" id="order-email-err" hidden></p>
             </div>
 
             <div class="field">
-              <label class="field__label" for="order-telegram">Telegram <span class="field__opt">необов’язково</span></label>
+              <label class="field__label" for="order-telegram"><span data-i18n="contact.telegram">Telegram</span> <span class="field__opt" data-i18n="order.opt">необов’язково</span></label>
               <input class="field__input" type="text" id="order-telegram" name="telegram" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="@username" maxlength="33" aria-describedby="order-telegram-hint order-telegram-err">
-              <p class="field__hint" id="order-telegram-hint">Вкажіть, якщо вам зручніше спілкуватися в Telegram</p>
+              <p class="field__hint" id="order-telegram-hint" data-i18n="order.tg.hint">Вкажіть, якщо вам зручніше спілкуватися в Telegram</p>
               <p class="field__error" id="order-telegram-err" hidden></p>
             </div>
 
             <div class="field">
-              <label class="field__label" for="order-company">Бізнес / компанія <span class="field__opt">необов’язково</span></label>
-              <input class="field__input" type="text" id="order-company" name="company" autocomplete="organization" placeholder="Назва компанії або бренду" maxlength="120">
+              <label class="field__label" for="order-company"><span data-i18n="order.company.label">Бізнес / компанія</span> <span class="field__opt" data-i18n="order.opt">необов’язково</span></label>
+              <input class="field__input" type="text" id="order-company" name="company" autocomplete="organization" placeholder="Назва компанії або бренду" data-i18n-attr="placeholder:order.company.ph" maxlength="120">
             </div>
 
             <fieldset class="field" aria-describedby="order-project-err">
-              <legend class="field__label">Тип проєкту <span class="field__req" aria-hidden="true">*</span><span class="sr-only"> (обов’язкове)</span></legend>
+              <legend class="field__label"><span data-i18n="order.type.legend">Тип проєкту</span> <span class="field__req" aria-hidden="true">*</span><span class="sr-only" data-i18n="a11y.required"> (обов’язкове)</span></legend>
               <div class="chips">
-                <label class="chip"><input type="radio" name="project_type" value="Landing page / Business website" required><span>Лендінг / сайт для бізнесу</span></label>
-                <label class="chip"><input type="radio" name="project_type" value="E-commerce website"><span>Інтернет-магазин</span></label>
-                <label class="chip"><input type="radio" name="project_type" value="Web application / Digital product"><span>Веб-застосунок / цифровий продукт</span></label>
-                <label class="chip"><input type="radio" name="project_type" value="UI/UX design"><span>UI/UX-дизайн</span></label>
-                <label class="chip"><input type="radio" name="project_type" value="Existing website improvement"><span>Доопрацювання наявного сайту</span></label>
-                <label class="chip"><input type="radio" name="project_type" value="Other"><span>Інше</span></label>
+                <label class="chip"><input type="radio" name="project_type" value="Landing page / Business website" required><span data-i18n="order.type.1">Лендінг / сайт для бізнесу</span></label>
+                <label class="chip"><input type="radio" name="project_type" value="E-commerce website"><span data-i18n="order.type.2">Інтернет-магазин</span></label>
+                <label class="chip"><input type="radio" name="project_type" value="Web application / Digital product"><span data-i18n="order.type.3">Веб-застосунок / цифровий продукт</span></label>
+                <label class="chip"><input type="radio" name="project_type" value="UI/UX design"><span data-i18n="order.type.4">UI/UX-дизайн</span></label>
+                <label class="chip"><input type="radio" name="project_type" value="Existing website improvement"><span data-i18n="order.type.5">Доопрацювання наявного сайту</span></label>
+                <label class="chip"><input type="radio" name="project_type" value="Other"><span data-i18n="order.type.6">Інше</span></label>
               </div>
               <p class="field__error" id="order-project-err" hidden></p>
             </fieldset>
 
             <div class="field">
-              <label class="field__label" for="order-description">Опис проєкту <span class="field__req" aria-hidden="true">*</span><span class="sr-only"> (обов’язкове)</span></label>
-              <textarea class="field__textarea" id="order-description" name="description" maxlength="2000" placeholder="Розкажіть про цілі сайту, аудиторію, бажані розділи й терміни" required aria-required="true" aria-describedby="order-description-count order-description-err"></textarea>
+              <label class="field__label" for="order-description"><span data-i18n="order.desc.label">Опис проєкту</span> <span class="field__req" aria-hidden="true">*</span><span class="sr-only" data-i18n="a11y.required"> (обов’язкове)</span></label>
+              <textarea class="field__textarea" id="order-description" name="description" maxlength="2000" placeholder="Розкажіть про цілі сайту, аудиторію, бажані розділи й терміни" data-i18n-attr="placeholder:order.desc.ph" required aria-required="true" aria-describedby="order-description-count order-description-err"></textarea>
               <div class="field__meta">
                 <p class="field__error" id="order-description-err" hidden></p>
                 <p class="field__count" id="order-description-count"><span id="order-description-len">0</span> / 2000</p>
@@ -312,31 +321,31 @@
             </div>
 
             <fieldset class="field">
-              <legend class="field__label">Орієнтовний бюджет <span class="field__opt">необов’язково</span></legend>
+              <legend class="field__label"><span data-i18n="order.budget.legend">Орієнтовний бюджет</span> <span class="field__opt" data-i18n="order.opt">необов’язково</span></legend>
               <div class="chips">
-                <label class="chip"><input type="radio" name="budget" value="Under 3,000 UAH"><span>До 3 000 грн</span></label>
-                <label class="chip"><input type="radio" name="budget" value="3,000–5,000 UAH"><span>3 000–5 000 грн</span></label>
-                <label class="chip"><input type="radio" name="budget" value="5,000–10,000 UAH"><span>5 000–10 000 грн</span></label>
-                <label class="chip"><input type="radio" name="budget" value="10,000–20,000 UAH"><span>10 000–20 000 грн</span></label>
-                <label class="chip"><input type="radio" name="budget" value="Over 20,000 UAH"><span>Понад 20 000 грн</span></label>
-                <label class="chip"><input type="radio" name="budget" value="Not sure yet"><span>Поки не визначився</span></label>
+                <label class="chip"><input type="radio" name="budget" value="Under 3,000 UAH"><span data-i18n="order.budget.1">До 3 000 грн</span></label>
+                <label class="chip"><input type="radio" name="budget" value="3,000–5,000 UAH"><span data-i18n="order.budget.2">3 000–5 000 грн</span></label>
+                <label class="chip"><input type="radio" name="budget" value="5,000–10,000 UAH"><span data-i18n="order.budget.3">5 000–10 000 грн</span></label>
+                <label class="chip"><input type="radio" name="budget" value="10,000–20,000 UAH"><span data-i18n="order.budget.4">10 000–20 000 грн</span></label>
+                <label class="chip"><input type="radio" name="budget" value="Over 20,000 UAH"><span data-i18n="order.budget.5">Понад 20 000 грн</span></label>
+                <label class="chip"><input type="radio" name="budget" value="Not sure yet"><span data-i18n="order.budget.6">Поки не визначився</span></label>
               </div>
             </fieldset>
 
             <div class="order-alert" id="order-alert" role="alert" tabindex="-1" hidden></div>
 
             <div class="order-form__actions">
-              <button class="btn btn--light order-form__submit" type="submit" id="order-submit"><span id="order-submit-label">Надіслати заявку</span> <span aria-hidden="true">→</span></button>
+              <button class="btn btn--light order-form__submit" type="submit" id="order-submit"><span id="order-submit-label" data-i18n="order.submit">Надіслати заявку</span> <span aria-hidden="true">→</span></button>
               <p class="order-status" id="order-status" role="status" aria-live="polite"></p>
             </div>
           </form>
 
           <div class="order-success" id="order-success" tabindex="-1" hidden>
-            <p class="kicker">Заявку отримано</p>
-            <h3 class="order-success__title">Дякуємо.</h3>
-            <p class="order-success__text">Деталі вашого проєкту отримано. Ми розглянемо їх і відповімо на email.</p>
+            <p class="kicker" data-i18n="order.sent.kicker">Заявку отримано</p>
+            <h3 class="order-success__title" data-i18n="order.sent.title">Дякуємо.</h3>
+            <p class="order-success__text" data-i18n="order.sent.text">Деталі вашого проєкту отримано. Ми розглянемо їх і відповімо на email.</p>
             <div>
-              <button class="btn btn--ghost btn--sm" type="button" id="order-again"><span>Надіслати ще одну заявку</span></button>
+              <button class="btn btn--ghost btn--sm" type="button" id="order-again"><span data-i18n="order.again">Надіслати ще одну заявку</span></button>
             </div>
           </div>
         </div>
@@ -347,17 +356,18 @@
   <footer class="footer">
     <div class="container footer__inner">
       <a href="#top" class="logo">WILKREY<sup>®</sup></a>
-      <nav class="footer__nav" aria-label="Навігація у футері">
-        <a href="#work">Роботи</a>
-        <a href="#studio">Студія</a>
-        <a href="#services">Послуги</a>
-        <a href="#process">Процес</a>
-        <a href="#contact">Контакти</a>
+      <nav class="footer__nav" aria-label="Навігація у футері" data-i18n-attr="aria-label:a11y.footerNav">
+        <a href="#work" data-i18n="nav.work">Роботи</a>
+        <a href="#studio" data-i18n="nav.studio">Студія</a>
+        <a href="#services" data-i18n="nav.services">Послуги</a>
+        <a href="#process" data-i18n="nav.process">Процес</a>
+        <a href="#contact" data-i18n="nav.contact">Контакти</a>
       </nav>
-      <p class="footer__copy">© <span id="year">2026</span> WILKREY®. Усі права захищено.</p>
+      <p class="footer__copy">© <span id="year">2026</span> <span data-i18n="footer.rights">WILKREY®. Усі права захищено.</span></p>
     </div>
   </footer>
 
+  <script src="assets/i18n.js"></script>
   <script src="assets/script.js" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

@@ -11,6 +11,8 @@ wilkrey/
 ├── sitemap.xml             # карта сайта (одна страница)
 ├── assets/
 │   ├── styles.css          # дизайн-система, композиция, анимации, адаптивность, reduced-motion
+│   ├── language.css        # кнопка-флаг переключателя языка (UA / EN)
+│   ├── i18n.js             # переводы UA / EN (словарь), определение языка, сохранение выбора, анимация смены
 │   ├── script.js           # шапка, меню, reveal, превью кейсов, курсор, форма заказа (Web3Forms)
 │   ├── logo-mark.webp      # логотип (WebP, с прозрачностью)
 │   └── og-image.png        # превью для соцсетей, 1200×630
@@ -36,7 +38,7 @@ wilkrey/
 Только файлы из белого списка `PUBLIC_FILES` в `scripts/build-publish.sh`:
 
 - `index.html`
-- `assets/styles.css`, `assets/script.js`
+- `assets/styles.css`, `assets/language.css`, `assets/script.js`, `assets/i18n.js`
 - `assets/logo-mark.webp`, `assets/og-image.png`
 - `robots.txt`, `sitemap.xml`
 
@@ -109,3 +111,4 @@ bash scripts/build-publish.sh && npx wrangler pages deploy dist --project-name=w
 - 3D-объект в hero построен на CSS (`transform-style: preserve-3d`), без WebGL и внешних библиотек.
 - Анимации отключаются при `prefers-reduced-motion: reduce`.
 - Шрифты подключаются из Google Fonts. Решение о самостоятельном хостинге шрифтов не принято.
+- Переводы (UA / EN): словарь `DICT` в `assets/i18n.js`. Текст в HTML помечается `data-i18n="ключ"` (или `data-i18n-attr="aria-label:ключ"` для атрибутов), ключ добавляется в оба языка. Язык определяется по браузеру при первом визите, ручной выбор сохраняется в `localStorage` (ключ `wk-lang`). Структура HTML по-прежнему содержит украинский текст: без JavaScript сайт показывается на украинском.

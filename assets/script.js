@@ -42,7 +42,7 @@
     if (!burger || !nav) return;
     var focusInside = nav.contains(document.activeElement);
     burger.setAttribute('aria-expanded', String(open));
-    burger.setAttribute('aria-label', open ? 'Закрити меню' : 'Відкрити меню');
+    burger.setAttribute('aria-label', window.wkT(open ? 'nav.close' : 'nav.open'));
     nav.classList.toggle('is-open', open);
     if (open) {
       var first = nav.querySelector('.nav__link');
@@ -53,6 +53,11 @@
   }
 
   if (burger && nav) {
+    /* После смены языка подпись кнопки меню должна соответствовать состоянию меню */
+    document.addEventListener('wk:langchange', function () {
+      burger.setAttribute('aria-label', window.wkT(isMenuOpen() ? 'nav.close' : 'nav.open'));
+    });
+
     burger.addEventListener('click', function () {
       setMenu(!isMenuOpen());
     });
@@ -282,21 +287,20 @@
   var descLen = document.getElementById('order-description-len');
 
   var sending = false;
+  /* Ключ текста видимой ошибки отправки: нужен, чтобы перевести её при смене языка */
+  var alertKey = null;
 
+  /* Тексты берутся из словаря при каждом обращении: после смены языка сообщения сразу на новом языке */
   var MSG = {
     required: {
-      name: 'Будь ласка, введіть імʼя.',
-      email: 'Будь ласка, введіть email.',
-      emailInvalid: 'Будь ласка, введіть коректний email, наприклад name@example.com.',
-      telegramInvalid: 'Вкажіть username Telegram: від 5 до 32 символів, латиниця, цифри та «_», наприклад @wilkrey.',
-      projectType: 'Будь ласка, оберіть тип проєкту.',
-      description: 'Будь ласка, опишіть проєкт.',
-      descriptionLong: 'Будь ласка, скоротіть опис до ' + MAX_DESCRIPTION + ' символів.'
-    },
-    notConfigured: 'Форма ще не активна. Будь ласка, напишіть на hello.wilkrey@gmail.com.',
-    network: 'Не вдалося звʼязатися з сервером. Перевірте інтернет-з’єднання і спробуйте ще раз. Введені дані збережено.',
-    rateLimit: 'Забагато запитів поспіль. Будь ласка, зачекайте кілька хвилин і спробуйте знову.',
-    service: 'Заявку не надіслано. Спробуйте ще раз трохи пізніше. Введені дані збережено.'
+      get name() { return window.wkT('err.name'); },
+      get email() { return window.wkT('err.email'); },
+      get emailInvalid() { return window.wkT('err.emailInvalid'); },
+      get telegramInvalid() { return window.wkT('err.tg'); },
+      get projectType() { return window.wkT('err.project'); },
+      get description() { return window.wkT('err.desc'); },
+      get descriptionLong() { return window.wkT('err.descLong').replace('{n}', String(MAX_DESCRIPTION)); }
+    }
   };
 
   /* ---------- Счётчик описания ---------- */
@@ -406,17 +410,21 @@
     sending = on;
     submitBtn.disabled = on;
     form.setAttribute('aria-busy', on ? 'true' : 'false');
-    submitLabel.textContent = on ? 'Надсилаємо…' : 'Надіслати заявку';
-    statusEl.textContent = on ? 'Надсилаємо заявку…' : '';
+    /* wkStack: обидві мовні версії, видима — поточна; розмір кнопки не змінюється при перемиканні мови */
+    submitLabel.innerHTML = window.wkStack(on ? 'form.sending' : 'order.submit');
+    statusEl.innerHTML = on ? window.wkStack('form.sendingStatus') : '';
   }
 
-  function showAlert(message) {
-    alertEl.textContent = message;
+  /* key — ключ словника; текст у двох мовах, видимий — поточний */
+  function showAlert(key) {
+    alertKey = key;
+    alertEl.innerHTML = window.wkStack(key);
     alertEl.hidden = false;
     alertEl.focus();
   }
 
   function clearAlert() {
+    alertKey = null;
     alertEl.textContent = '';
     alertEl.hidden = true;
   }
@@ -446,7 +454,7 @@
   function onSuccess() {
     sending = false;
     submitBtn.disabled = false;
-    submitLabel.textContent = 'Надіслати заявку';
+    submitLabel.innerHTML = window.wkStack('order.submit');
     form.setAttribute('aria-busy', 'false');
     statusEl.textContent = '';
     clearAlert();
@@ -455,10 +463,10 @@
     successEl.focus();
   }
 
-  function onFailure(message) {
+  function onFailure(key) {
     setBusy(false);
     statusEl.textContent = '';
-    showAlert(message);
+    showAlert(key);
   }
 
   /* ---------- Отправка ---------- */
@@ -489,14 +497,14 @@
         if (r.res.ok && r.json && r.json.success === true) {
           onSuccess();
         } else if (r.res.status === 429) {
-          onFailure(MSG.rateLimit);
+          onFailure('err.rateLimit');
         } else {
-          onFailure(MSG.service);
+          onFailure('err.service');
         }
       })
       .catch(function () {
         clearTimeout(timer);
-        onFailure(MSG.network);
+        onFailure('err.network');
       });
   }
 
@@ -506,10 +514,19 @@
     clearAlert();
     if (!validateAll()) return;
     if (!isConfigured()) {
-      showAlert(MSG.notConfigured);
+      showAlert('err.notConfigured');
       return;
     }
     send();
+  });
+
+  /* ---------- Смена языка: открытые тексты ошибок полей переводятся на новый язык ----------
+     Кнопка, статус и общее сообщение об ошибке переключаются сами (см. wkStack в i18n.js). */
+  document.addEventListener('wk:langchange', function () {
+    order.forEach(function (key) {
+      var errEl = document.getElementById(fields[key].error);
+      if (errEl && !errEl.hidden) applyField(key);
+    });
   });
 
   /* ---------- Отправить ещё одну заявку ---------- */
