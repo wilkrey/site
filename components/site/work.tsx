@@ -46,6 +46,17 @@ const projects: Project[] = [
     glow: 'radial-gradient(70%_80%_at_85%_10%,rgb(255_140_180/0.22),transparent),radial-gradient(60%_70%_at_0%_100%,rgb(120_90_255/0.2),transparent)',
     nameClass: 'font-light tracking-[0.3em] text-white',
   },
+  {
+    index: '04',
+    name: 'DENTARA',
+    category: 'Website Design · Independent Concept Project',
+    description:
+      'Незалежний концепт сайту сучасної стоматологічної клініки: чистий, сучасний візуальний напрям, професійна подача та адаптивні макети.',
+    url: null,
+    host: 'демо буде додано',
+    glow: 'radial-gradient(70%_80%_at_85%_10%,rgb(90_220_230/0.22),transparent),radial-gradient(60%_70%_at_0%_100%,rgb(60_110_255/0.22),transparent)',
+    nameClass: 'font-bold tracking-[0.22em] text-white',
+  },
 ]
 
 function Preview({ project, large }: { project: Project; large?: boolean }) {
@@ -121,7 +132,7 @@ function ProjectCard({ project, large, delay }: { project: Project; large?: bool
     <Reveal
       as="article"
       delay={delay}
-      className={`panel relative overflow-hidden rounded-[2rem] ${large ? 'md:col-span-12' : 'md:col-span-6'}`}
+      className={`panel relative overflow-hidden rounded-[2rem] ${large ? 'md:col-span-12' : 'md:col-span-6 lg:col-span-4'}`}
     >
       {project.url ? (
         <a
@@ -152,7 +163,7 @@ export function Work() {
         </Reveal>
         <Reveal delay={120} className="md:col-span-4 md:col-start-9 md:self-end">
           <p className="leading-relaxed text-mist">
-            Власний сайт студії та два незалежні концепт-проєкти — без вигаданих замовлень, лише те, що
+            Власний сайт студії та три незалежні концепт-проєкти — без вигаданих замовлень, лише те, що
             ми справді створили.
           </p>
         </Reveal>
