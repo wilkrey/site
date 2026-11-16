@@ -112,7 +112,7 @@ export function Services() {
             >
               <article className="panel relative grid items-center gap-8 overflow-hidden rounded-[2rem] p-6 md:min-h-[24rem] md:grid-cols-12 md:gap-10 md:p-12">
                 <div
-                  className={`pointer-events-none absolute size-[28rem] rounded-full bg-[radial-gradient(closest-side,rgb(198_255_61/0.16),transparent)] ${s.glow}`}
+                  className={`pointer-events-none absolute size-[28rem] rounded-full bg-[radial-gradient(closest-side,rgb(255_255_255/0.16),transparent)] ${s.glow}`}
                   aria-hidden="true"
                 />
                 <div className="relative md:col-span-7">

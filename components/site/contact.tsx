@@ -7,7 +7,7 @@ export function Contact() {
     <section id="contact" className="px-3 pt-10 md:px-5 md:pt-20">
       <div className="relative isolate mx-auto max-w-[1440px] overflow-hidden rounded-[2rem] bg-lime text-void md:rounded-[3rem]">
         <div
-          className="absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_90%_0%,#f4ffc4,transparent),radial-gradient(50%_70%_at_0%_100%,#9be000,transparent)]"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_90%_0%,#ffffff,transparent),radial-gradient(50%_70%_at_0%_100%,#e4e4e4,transparent)]"
           aria-hidden="true"
         />
         <div

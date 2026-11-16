@@ -91,9 +91,17 @@ export function Header() {
             goTo('top')
             setOpen(false)
           }}
-          className="text-base font-extrabold tracking-[0.18em]"
+          className="flex items-center gap-3 text-base font-extrabold tracking-[0.18em]"
           aria-label="WILKREY — на початок"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-mark.png"
+            alt=""
+            width={668}
+            height={324}
+            className="h-6 w-auto drop-shadow-[0_2px_8px_rgb(255_255_255/0.18)]"
+          />
           WILKREY
         </a>
 
@@ -139,7 +147,7 @@ export function Header() {
         <a
           href="#contact"
           onClick={() => goTo('contact')}
-          className="hidden items-center gap-1.5 rounded-full bg-lime px-5 py-2.5 text-sm font-extrabold text-void shadow-[0_0_30px_-4px_rgb(198_255_61/0.55)] transition-transform duration-500 ease-[var(--ease-spring)] hover:scale-105 md:inline-flex"
+          className="hidden items-center gap-1.5 rounded-full bg-lime px-5 py-2.5 text-sm font-extrabold text-void shadow-[0_0_30px_-4px_rgb(255_255_255/0.55)] transition-transform duration-500 ease-[var(--ease-spring)] hover:scale-105 md:inline-flex"
         >
           Написати
           <ArrowUpRight className="size-4" aria-hidden="true" />

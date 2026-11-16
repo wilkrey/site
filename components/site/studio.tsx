@@ -11,7 +11,7 @@ export function Studio() {
   return (
     <section id="studio" className="relative px-3 py-24 md:px-5 md:py-36">
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[40rem] bg-[radial-gradient(50%_60%_at_80%_100%,rgb(198_255_61/0.14),transparent),radial-gradient(40%_50%_at_10%_90%,rgb(70_110_255/0.14),transparent)]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[40rem] bg-[radial-gradient(50%_60%_at_80%_100%,rgb(255_255_255/0.14),transparent),radial-gradient(40%_50%_at_10%_90%,rgb(70_110_255/0.14),transparent)]"
         aria-hidden="true"
       />
 

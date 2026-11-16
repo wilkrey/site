@@ -21,7 +21,7 @@ const projects: Project[] = [
       'Офіційний сайт WILKREY — креативної студії веб-дизайну та розробки, що створює сучасні, продумані та візуально виразні цифрові рішення.',
     url: 'https://wilkrey.pages.dev',
     host: 'wilkrey.pages.dev',
-    glow: 'radial-gradient(70%_80%_at_85%_10%,rgb(198_255_61/0.3),transparent),radial-gradient(60%_70%_at_0%_100%,rgb(70_110_255/0.22),transparent)',
+    glow: 'radial-gradient(70%_80%_at_85%_10%,rgb(255_255_255/0.3),transparent),radial-gradient(60%_70%_at_0%_100%,rgb(70_110_255/0.22),transparent)',
     nameClass: 'text-lime-grad font-extrabold tracking-[0.14em]',
   },
   {
@@ -92,7 +92,7 @@ function Info({ project, large }: { project: Project; large?: boolean }) {
         <p className="mt-4 max-w-md text-sm leading-relaxed text-mist md:text-base">{project.description}</p>
       </div>
       {project.url ? (
-        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-lime px-5 py-3 text-sm font-extrabold text-void shadow-[0_0_30px_-6px_rgb(198_255_61/0.5)] transition-transform duration-500 ease-[var(--ease-spring)] group-hover:scale-105">
+        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-lime px-5 py-3 text-sm font-extrabold text-void shadow-[0_0_30px_-6px_rgb(255_255_255/0.5)] transition-transform duration-500 ease-[var(--ease-spring)] group-hover:scale-105">
           Переглянути сайт
           <ArrowUpRight className="size-4" aria-hidden="true" />
         </span>

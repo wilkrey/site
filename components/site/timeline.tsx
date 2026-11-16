@@ -35,7 +35,7 @@ export function Timeline({ children }: { children: ReactNode }) {
         aria-hidden="true"
       />
       <span
-        className="absolute top-0 bottom-0 left-5 w-0.5 origin-top -translate-x-1/2 bg-gradient-to-b from-lime/0 via-lime to-lime shadow-[0_0_18px_rgb(198_255_61/0.9)] md:left-1/2"
+        className="absolute top-0 bottom-0 left-5 w-0.5 origin-top -translate-x-1/2 bg-gradient-to-b from-lime/0 via-lime to-lime shadow-[0_0_18px_rgb(255_255_255/0.9)] md:left-1/2"
         style={{ transform: 'translateX(-50%) scaleY(var(--p))' }}
         aria-hidden="true"
       />

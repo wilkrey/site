@@ -17,7 +17,10 @@ export const metadata: Metadata = {
     'WILKREY — незалежна студія. Створюємо сучасні сайти та лендінги для малого бізнесу, підприємців і незалежних професіоналів.',
   generator: 'v0.app',
   icons: {
-    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    icon: [
+      { url: '/logo-mark.png', type: 'image/png' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
     apple: '/apple-icon.png',
   },
 }

@@ -44,7 +44,7 @@ export function HeroStage() {
         style={{ '--d': '300ms' } as React.CSSProperties}
       >
         <div className="layer h-full" style={{ '--depth': -14 } as React.CSSProperties}>
-          <div className="relative h-full overflow-hidden rounded-[2.25rem] border border-white/15 shadow-[0_60px_120px_-40px_rgb(198_255_61/0.3)]">
+          <div className="relative h-full overflow-hidden rounded-[2.25rem] border border-white/15 shadow-[0_60px_120px_-40px_rgb(255_255_255/0.3)]">
             <Image
               src="/images/hero-desk.png"
               alt=""
@@ -83,7 +83,7 @@ export function HeroStage() {
               <div className="h-1.5 w-2/3 rounded-full bg-white/20" />
             </div>
             <div className="mt-5 flex gap-2" aria-hidden="true">
-              <div className="h-8 w-24 rounded-full bg-lime shadow-[0_0_24px_rgb(198_255_61/0.6)]" />
+              <div className="h-8 w-24 rounded-full bg-lime shadow-[0_0_24px_rgb(255_255_255/0.6)]" />
               <div className="h-8 w-16 rounded-full border border-white/25" />
             </div>
           </div>

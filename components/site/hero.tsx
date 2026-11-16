@@ -14,7 +14,7 @@ export function Hero() {
           className="parallax absolute -top-[30%] -right-[20%] size-[56rem] max-w-none"
           data-parallax="0.12"
         >
-          <div className="drift size-full rounded-full bg-[radial-gradient(closest-side,rgb(198_255_61/0.26),rgb(198_255_61/0.06)_55%,transparent)]" />
+          <div className="drift size-full rounded-full bg-[radial-gradient(closest-side,rgb(255_255_255/0.26),rgb(255_255_255/0.06)_55%,transparent)]" />
         </div>
         <div
           className="parallax absolute -bottom-[35%] -left-[25%] size-[52rem] max-w-none"
@@ -62,7 +62,7 @@ export function Hero() {
             <a
               href="#contact"
               data-magnetic
-              className="magnetic group inline-flex h-14 items-center justify-center gap-3 rounded-full bg-lime pr-2 pl-7 text-base font-extrabold text-void shadow-[0_0_44px_-6px_rgb(198_255_61/0.6)]"
+              className="magnetic group inline-flex h-14 items-center justify-center gap-3 rounded-full bg-lime pr-2 pl-7 text-base font-extrabold text-void shadow-[0_0_44px_-6px_rgb(255_255_255/0.6)]"
             >
               Обговорити проєкт
               <span className="grid size-10 place-items-center rounded-full bg-void text-lime transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1">

@@ -4,7 +4,11 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden px-5 pt-14 md:px-10">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-5 md:flex-row md:items-center md:justify-between">
-        <p className="text-base font-extrabold tracking-[0.18em]">WILKREY</p>
+        <p className="flex items-center gap-3 text-base font-extrabold tracking-[0.18em]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-mark.png" alt="" width={668} height={324} className="h-7 w-auto" />
+          WILKREY
+        </p>
         <p className="text-sm font-semibold text-mist">© 2026 WILKREY. Усі права захищено.</p>
         <a
           href="#top"

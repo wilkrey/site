@@ -15,7 +15,7 @@ export function Process() {
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="grid-bg absolute inset-0 opacity-70" />
         <div className="parallax absolute top-[20%] -left-[20%] size-[50rem]" data-parallax="0.1">
-          <div className="size-full rounded-full bg-[radial-gradient(closest-side,rgb(198_255_61/0.14),transparent)]" />
+          <div className="size-full rounded-full bg-[radial-gradient(closest-side,rgb(255_255_255/0.14),transparent)]" />
         </div>
         <div className="parallax absolute -right-[20%] bottom-[5%] size-[46rem]" data-parallax="-0.08">
           <div className="size-full rounded-full bg-[radial-gradient(closest-side,rgb(70_110_255/0.18),transparent)]" />
@@ -43,7 +43,7 @@ export function Process() {
                 delay={60}
                 className="group relative grid py-3 md:grid-cols-2 md:py-5"
               >
-                <span className="absolute top-9 left-5 z-10 grid size-11 -translate-x-1/2 place-items-center rounded-full border border-white/15 bg-graphite text-xs font-extrabold text-mist transition-all duration-700 ease-[var(--ease-spring)] group-[.is-in]:scale-110 group-[.is-in]:border-lime group-[.is-in]:bg-lime group-[.is-in]:text-void group-[.is-in]:shadow-[0_0_34px_rgb(198_255_61/0.7)] md:top-12 md:left-1/2">
+                <span className="absolute top-9 left-5 z-10 grid size-11 -translate-x-1/2 place-items-center rounded-full border border-white/15 bg-graphite text-xs font-extrabold text-mist transition-all duration-700 ease-[var(--ease-spring)] group-[.is-in]:scale-110 group-[.is-in]:border-lime group-[.is-in]:bg-lime group-[.is-in]:text-void group-[.is-in]:shadow-[0_0_34px_rgb(255_255_255/0.7)] md:top-12 md:left-1/2">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div
