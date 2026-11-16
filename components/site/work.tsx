@@ -30,8 +30,8 @@ const projects: Project[] = [
     category: 'Website Design · Independent Concept Project',
     description:
       'Незалежний концепт сайту сучасної кав’ярні: вишукана візуальна мова, продумані адаптивні макети та плавні взаємодії.',
-    url: null,
-    host: 'демо буде додано',
+    url: 'https://wilkrey.github.io/noir-cafe',
+    host: 'wilkrey.github.io/noir-cafe',
     glow: 'radial-gradient(70%_80%_at_85%_10%,rgb(255_170_80/0.22),transparent),radial-gradient(60%_70%_at_0%_100%,rgb(70_60_50/0.4),transparent)',
     nameClass: 'font-extrabold tracking-[0.2em] text-white',
   },
@@ -41,8 +41,8 @@ const projects: Project[] = [
     category: 'Website Design · Independent Concept Project',
     description:
       'Незалежний концепт сайту флористичної студії: вишукана типографіка, елегантний візуальний сторітелінг та чітко структурований адаптивний досвід.',
-    url: null,
-    host: 'демо буде додано',
+    url: 'https://wilkrey.github.io/fleure',
+    host: 'wilkrey.github.io/fleure',
     glow: 'radial-gradient(70%_80%_at_85%_10%,rgb(255_140_180/0.22),transparent),radial-gradient(60%_70%_at_0%_100%,rgb(120_90_255/0.2),transparent)',
     nameClass: 'font-light tracking-[0.3em] text-white',
   },
@@ -52,8 +52,8 @@ const projects: Project[] = [
     category: 'Website Design · Independent Concept Project',
     description:
       'Незалежний концепт сайту сучасної стоматологічної клініки: чистий, сучасний візуальний напрям, професійна подача та адаптивні макети.',
-    url: null,
-    host: 'демо буде додано',
+    url: 'https://dentara-demo-ten.vercel.app',
+    host: 'dentara-demo-ten.vercel.app',
     glow: 'radial-gradient(70%_80%_at_85%_10%,rgb(90_220_230/0.22),transparent),radial-gradient(60%_70%_at_0%_100%,rgb(60_110_255/0.22),transparent)',
     nameClass: 'font-bold tracking-[0.22em] text-white',
   },
