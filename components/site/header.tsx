@@ -20,10 +20,26 @@ export function Header() {
   const [pill, setPill] = useState({ x: 0, w: 0, visible: false })
   const itemRefs = useRef<Record<string, HTMLLIElement | null>>({})
   const target = hovered ?? active
+  const scrollLock = useRef(false)
+  const unlockTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  const armUnlock = () => {
+    clearTimeout(unlockTimer.current)
+    unlockTimer.current = setTimeout(() => {
+      scrollLock.current = false
+    }, 160)
+  }
+
+  const goTo = (id: string) => {
+    setActive(id === 'top' ? null : id)
+    scrollLock.current = true
+    armUnlock()
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        if (scrollLock.current) return
         for (const entry of entries) {
           if (entry.isIntersecting) setActive(entry.target.id === 'top' ? null : entry.target.id)
         }
@@ -34,7 +50,15 @@ export function Header() {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     }
-    return () => observer.disconnect()
+    const onScroll = () => {
+      if (scrollLock.current) armUnlock()
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      clearTimeout(unlockTimer.current)
+    }
   }, [])
 
   useEffect(() => {
@@ -63,7 +87,10 @@ export function Header() {
       <div className="glass flex w-full max-w-[54rem] items-center justify-between gap-2 rounded-full py-2 pr-2 pl-5">
         <a
           href="#top"
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            goTo('top')
+            setOpen(false)
+          }}
           className="text-base font-extrabold tracking-[0.18em]"
           aria-label="WILKREY — на початок"
         >
@@ -95,6 +122,7 @@ export function Header() {
                   <a
                     href={l.href}
                     aria-current={active === id ? 'location' : undefined}
+                    onClick={() => goTo(id)}
                     onPointerEnter={() => setHovered(id)}
                     onFocus={() => setHovered(id)}
                     onBlur={() => setHovered(null)}
@@ -109,9 +137,8 @@ export function Header() {
         </nav>
 
         <a
-          href="https://t.me/wilkrey"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="#contact"
+          onClick={() => goTo('contact')}
           className="hidden items-center gap-1.5 rounded-full bg-lime px-5 py-2.5 text-sm font-extrabold text-void shadow-[0_0_30px_-4px_rgb(198_255_61/0.55)] transition-transform duration-500 ease-[var(--ease-spring)] hover:scale-105 md:inline-flex"
         >
           Написати
@@ -161,7 +188,10 @@ export function Header() {
               >
                 <a
                   href={l.href}
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    goTo(l.href.slice(1))
+                    setOpen(false)
+                  }}
                   className="flex items-baseline justify-between rounded-2xl px-4 py-3.5 text-3xl font-extrabold tracking-tight transition-colors hover:bg-white/8"
                 >
                   {l.label}

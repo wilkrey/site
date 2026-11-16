@@ -1,4 +1,5 @@
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
+import { ContactForm } from './contact-form'
 import { Reveal } from './reveal'
 
 export function Contact() {
@@ -40,23 +41,20 @@ export function Contact() {
                 Коротко розкажіть про свою справу та що потрібно від сайту. Ми відповімо та
                 запропонуємо наступні кроки.
               </p>
-            </Reveal>
-
-            <Reveal delay={180} className="md:col-span-7 md:col-start-6">
-              <ul className="space-y-3">
+              <ul className="mt-8 space-y-3">
                 <li>
                   <a
                     href="mailto:hello.wilkrey@gmail.com"
-                    className="glass-dark group flex items-center justify-between gap-4 rounded-[1.75rem] px-6 py-5 md:px-8 md:py-6"
+                    className="glass-dark group flex items-center justify-between gap-4 rounded-[1.5rem] px-5 py-4"
                   >
                     <span className="min-w-0">
                       <span className="eyebrow block text-void/70">Email</span>
-                      <span className="mt-1 block text-[clamp(1.05rem,2.6vw,2rem)] font-extrabold tracking-tight break-all">
+                      <span className="mt-1 block text-base font-extrabold tracking-tight break-all">
                         hello.wilkrey@gmail.com
                       </span>
                     </span>
                     <ArrowUpRight
-                      className="size-6 shrink-0 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1 group-hover:-translate-y-1"
+                      className="size-5 shrink-0 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1 group-hover:-translate-y-1"
                       aria-hidden="true"
                     />
                   </a>
@@ -66,34 +64,23 @@ export function Contact() {
                     href="https://t.me/wilkrey"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="glass-dark group flex items-center justify-between gap-4 rounded-[1.75rem] px-6 py-5 md:px-8 md:py-6"
+                    className="glass-dark group flex items-center justify-between gap-4 rounded-[1.5rem] px-5 py-4"
                   >
                     <span className="min-w-0">
                       <span className="eyebrow block text-void/70">Telegram</span>
-                      <span className="mt-1 block text-[clamp(1.05rem,2.6vw,2rem)] font-extrabold tracking-tight">
-                        @wilkrey
-                      </span>
+                      <span className="mt-1 block text-base font-extrabold tracking-tight">@wilkrey</span>
                     </span>
                     <ArrowUpRight
-                      className="size-6 shrink-0 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1 group-hover:-translate-y-1"
+                      className="size-5 shrink-0 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1 group-hover:-translate-y-1"
                       aria-hidden="true"
                     />
                   </a>
                 </li>
               </ul>
+            </Reveal>
 
-              <a
-                href="https://t.me/wilkrey"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-magnetic
-                className="magnetic group mt-6 inline-flex h-16 w-full items-center justify-between gap-4 rounded-full bg-void pr-2.5 pl-8 text-lg font-extrabold text-lime shadow-[0_24px_50px_-20px_rgb(7_8_10/0.8)] sm:w-auto sm:justify-center"
-              >
-                Написати в Telegram
-                <span className="grid size-11 place-items-center rounded-full bg-lime text-void transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1">
-                  <ArrowRight className="size-5" aria-hidden="true" />
-                </span>
-              </a>
+            <Reveal delay={180} className="md:col-span-7 md:col-start-6">
+              <ContactForm />
             </Reveal>
           </div>
         </div>

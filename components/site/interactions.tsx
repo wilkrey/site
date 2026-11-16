@@ -64,13 +64,13 @@ export function Interactions() {
         const rect = el.getBoundingClientRect()
         const cx = rect.left - offset.x + rect.width / 2
         const cy = rect.top - offset.y + rect.height / 2
-        const reachX = rect.width / 2 + 48
-        const reachY = rect.height / 2 + 48
+        const reachX = rect.width / 2 + 8
+        const reachY = rect.height / 2 + 8
         const dx = e.clientX - cx
         const dy = e.clientY - cy
         if (Math.abs(dx) < reachX && Math.abs(dy) < reachY) {
-          const x = dx * 0.28
-          const y = dy * 0.38
+          const x = Math.max(-5, Math.min(5, dx * 0.07))
+          const y = Math.max(-3, Math.min(3, dy * 0.1))
           el.style.setProperty('--mx', `${x.toFixed(1)}px`)
           el.style.setProperty('--my', `${y.toFixed(1)}px`)
           magneticOffsets.set(el, { x, y })
