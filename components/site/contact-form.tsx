@@ -1,9 +1,16 @@
+
 'use client'
 
 import { ArrowRight, Check, LoaderCircle } from 'lucide-react'
 import { useRef, useState } from 'react'
 
-const projectTypes = ['Лендінг', 'Сайт-візитівка', 'Інтернет-магазин', 'Редизайн', 'Інше']
+const projectTypes = [
+  'Лендінг',
+  'Сайт-візитівка',
+  'Інтернет-магазин',
+  'Редизайн',
+  'Інше',
+]
 
 type Field = 'name' | 'email' | 'message' | 'telegram'
 type Errors = Partial<Record<Field, string>>
@@ -18,25 +25,42 @@ function validate(data: FormData): Errors {
   const email = String(data.get('email') ?? '').trim()
   const message = String(data.get('message') ?? '').trim()
   const telegram = String(data.get('telegram') ?? '').trim()
+
   if (name.length < 2) errors.name = 'Вкажіть ім’я (мінімум 2 символи)'
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) errors.email = 'Вкажіть коректну електронну адресу'
-  if (message.length < 10) errors.message = 'Опишіть проєкт хоча б кількома реченнями'
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))
+    errors.email = 'Вкажіть коректну електронну адресу'
+  if (message.length < 10)
+    errors.message = 'Опишіть проєкт хоча б кількома реченнями'
   if (telegram && !/^@?[A-Za-z0-9_]{5,32}$/.test(telegram))
     errors.telegram = 'Формат: @username (5–32 символи, латиниця, цифри, _)'
+
   return errors
 }
 
-function Label({ htmlFor, children, optional }: { htmlFor: string; children: string; optional?: boolean }) {
+function Label({
+  htmlFor,
+  children,
+  optional,
+}: {
+  htmlFor: string
+  children: string
+  optional?: boolean
+}) {
   return (
     <label htmlFor={htmlFor} className="eyebrow mb-2 block text-void/75">
       {children}
-      {optional && <span className="ml-2 text-void/50 normal-case">— необов’язково</span>}
+      {optional && (
+        <span className="ml-2 text-void/50 normal-case">
+          — необов’язково
+        </span>
+      )}
     </label>
   )
 }
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
+
   return (
     <p id={id} role="alert" className="mt-2 text-sm font-bold text-red-900">
       {message}
@@ -57,37 +81,57 @@ export function ContactForm() {
     const form = event.currentTarget
     const data = new FormData(form)
     const found = validate(data)
+
     setErrors(found)
+
     if (Object.keys(found).length > 0) {
-      form.querySelector<HTMLElement>(`[name="${Object.keys(found)[0]}"]`)?.focus()
+      form
+        .querySelector<HTMLElement>(
+          `[name="${Object.keys(found)[0]}"]`,
+        )
+        ?.focus()
       return
     }
 
     submitting.current = true
     setStatus('loading')
     setNotice('')
+
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(data)),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: 'e9dd5bb6-ea6e-4357-be7a-91f80ee1974c',
+          name: data.get('name'),
+          email: data.get('email'),
+          projectType: data.get('projectType'),
+          telegram: data.get('telegram'),
+          message: data.get('message'),
+          subject: `Нова заявка з WILKREY — ${data.get('name')}`,
+          from_name: 'WILKREY',
+          botcheck: '',
+        }),
       })
-      if (response.ok) {
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
         form.reset()
         setStatus('success')
-        return
+      } else {
+        setNotice(
+          'Не вдалося надіслати заявку. Спробуйте ще раз або напишіть нам напряму.',
+        )
+        setStatus('error')
       }
-      const { error } = (await response.json().catch(() => ({}))) as { error?: string }
-      setNotice(
-        error === 'not_configured'
-          ? 'Форма ще не підключена до пошти, тому заявку не надіслано. Напишіть нам напряму на email або в Telegram.'
-          : error === 'validation'
-            ? 'Перевірте, будь ласка, заповнені поля.'
-            : 'Не вдалося надіслати заявку. Спробуйте ще раз або напишіть нам напряму.',
-      )
-      setStatus('error')
     } catch {
-      setNotice('Немає зʼєднання з сервером. Перевірте інтернет і спробуйте ще раз.')
+      setNotice(
+        'Немає зʼєднання з сервером. Перевірте інтернет і спробуйте ще раз.',
+      )
       setStatus('error')
     } finally {
       submitting.current = false
@@ -103,7 +147,9 @@ export function ContactForm() {
         <span className="grid size-14 place-items-center rounded-full bg-void text-lime">
           <Check className="size-6" aria-hidden="true" />
         </span>
-        <h3 className="display text-4xl md:text-5xl">Заявку надіслано</h3>
+        <h3 className="display text-4xl md:text-5xl">
+          Заявку надіслано
+        </h3>
         <p className="max-w-md text-lg font-semibold text-void/80">
           Дякуємо! Ми прочитаємо повідомлення та відповімо на вашу пошту.
         </p>
@@ -143,6 +189,7 @@ export function ContactForm() {
           />
           <FieldError id="cf-name-error" message={errors.name} />
         </div>
+
         <div>
           <Label htmlFor="cf-email">Email</Label>
           <input
@@ -171,13 +218,14 @@ export function ContactForm() {
             disabled={loading}
             className={`${inputClass} appearance-none bg-[length:1.25rem] bg-[position:right_1.25rem_center] bg-no-repeat [background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2307080a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")]`}
           >
-            {projectTypes.map((t) => (
-              <option key={t} value={t}>
-                {t}
+            {projectTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
               </option>
             ))}
           </select>
         </div>
+
         <div>
           <Label htmlFor="cf-telegram" optional>
             Telegram
@@ -190,7 +238,9 @@ export function ContactForm() {
             maxLength={33}
             disabled={loading}
             aria-invalid={!!errors.telegram}
-            aria-describedby={errors.telegram ? 'cf-telegram-error' : undefined}
+            aria-describedby={
+              errors.telegram ? 'cf-telegram-error' : undefined
+            }
             className={inputClass}
           />
           <FieldError id="cf-telegram-error" message={errors.telegram} />
@@ -213,7 +263,10 @@ export function ContactForm() {
         <FieldError id="cf-message-error" message={errors.message} />
       </div>
 
-      <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+      <div
+        className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+        aria-hidden="true"
+      >
         <label>
           Не заповнюйте це поле
           <input name="website" tabIndex={-1} autoComplete="off" />
@@ -221,7 +274,10 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <p role="alert" className="rounded-2xl bg-red-900/10 px-5 py-4 text-sm font-bold text-red-950">
+        <p
+          role="alert"
+          className="rounded-2xl bg-red-900/10 px-5 py-4 text-sm font-bold text-red-950"
+        >
           {notice}
         </p>
       )}
