@@ -1,19 +1,13 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Onest, Source_Serif_4 } from 'next/font/google'
+import { Manrope } from 'next/font/google'
+import { Interactions } from '@/components/site/interactions'
 import './globals.css'
 
-const onest = Onest({
+const manrope = Manrope({
   subsets: ['latin', 'cyrillic'],
-  variable: '--font-onest',
-  display: 'swap',
-})
-
-const sourceSerif = Source_Serif_4({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-source-serif',
-  style: ['normal', 'italic'],
-  axes: ['opsz'],
+  variable: '--font-manrope',
+  weight: ['500', '600', '700', '800'],
   display: 'swap',
 })
 
@@ -29,7 +23,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#efe9de',
+  themeColor: '#07080a',
+  colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,
 }
@@ -38,9 +33,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="uk" className={`${onest.variable} ${sourceSerif.variable}`}>
-      <body className="grain">
+    <html lang="uk" className={manrope.variable}>
+      <body>
+        <div className="scroll-bar" aria-hidden="true" />
         {children}
+        <Interactions />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

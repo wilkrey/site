@@ -1,4 +1,5 @@
 import { Reveal } from './reveal'
+import { Timeline } from './timeline'
 
 const steps = [
   ['Знайомство', 'Обговорюємо вашу справу, аудиторію та завдання сайту. Домовляємося про обсяг робіт.'],
@@ -10,45 +11,56 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="process" className="bg-ink text-paper">
-      <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10 md:py-32">
-        <div className="grid gap-6 md:grid-cols-12 md:gap-x-8">
-          <Reveal className="md:col-span-6">
-            <p className="eyebrow mb-6 text-[#f08a68]">04 / Процес</p>
-            <h2 className="display text-[clamp(2.4rem,5.4vw,4.8rem)]">
-              Від розмови до <em className="italic">готового</em> сайту
-            </h2>
-          </Reveal>
-          <Reveal delay={100} className="md:col-span-4 md:col-start-9 md:self-end">
-            <p className="leading-relaxed text-paper/70">
-              П&apos;ять зрозумілих етапів. Ви завжди знаєте, на якому кроці проєкт і що буде
-              далі.
-            </p>
-          </Reveal>
+    <section id="process" className="relative overflow-hidden">
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
+        <div className="grid-bg absolute inset-0 opacity-70" />
+        <div className="parallax absolute top-[20%] -left-[20%] size-[50rem]" data-parallax="0.1">
+          <div className="size-full rounded-full bg-[radial-gradient(closest-side,rgb(198_255_61/0.14),transparent)]" />
         </div>
+        <div className="parallax absolute -right-[20%] bottom-[5%] size-[46rem]" data-parallax="-0.08">
+          <div className="size-full rounded-full bg-[radial-gradient(closest-side,rgb(70_110_255/0.18),transparent)]" />
+        </div>
+      </div>
 
-        <ol className="mt-14 md:mt-24">
-          {steps.map(([title, text], i) => (
-            <Reveal as="li" key={title} delay={i * 50}>
-              <div
-                className={`grid gap-3 border-t border-paper/25 py-7 md:grid-cols-12 md:items-baseline md:gap-x-8 md:py-10 ${
-                  i % 2 ? 'md:pl-[8.33%]' : ''
-                }`}
+      <div className="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-36">
+        <Reveal className="mx-auto max-w-3xl text-center">
+          <p className="chip mb-6 text-lime">04 — Процес</p>
+          <h2 className="display text-[clamp(2.4rem,5.4vw,5rem)]">
+            Від розмови до <span className="text-lime-grad">готового</span> сайту
+          </h2>
+          <p className="mx-auto mt-6 max-w-md leading-relaxed text-mist">
+            П&apos;ять зрозумілих етапів. Ви завжди знаєте, на якому кроці проєкт і що буде
+            далі.
+          </p>
+        </Reveal>
+
+        <div className="mt-16 md:mt-24">
+          <Timeline>
+            {steps.map(([title, text], i) => (
+              <Reveal
+                as="li"
+                key={title}
+                delay={60}
+                className="group relative grid py-3 md:grid-cols-2 md:py-5"
               >
-                <span className="font-serif text-5xl font-light italic text-[#f08a68] md:col-span-2 md:text-7xl">
+                <span className="absolute top-9 left-5 z-10 grid size-11 -translate-x-1/2 place-items-center rounded-full border border-white/15 bg-graphite text-xs font-extrabold text-mist transition-all duration-700 ease-[var(--ease-spring)] group-[.is-in]:scale-110 group-[.is-in]:border-lime group-[.is-in]:bg-lime group-[.is-in]:text-void group-[.is-in]:shadow-[0_0_34px_rgb(198_255_61/0.7)] md:top-12 md:left-1/2">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <h3 className="font-serif text-3xl font-light tracking-tight md:col-span-4 md:text-5xl">
-                  {title}
-                </h3>
-                <p className="max-w-md leading-relaxed text-paper/70 md:col-span-4 md:col-start-8">
-                  {text}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-          <li className="border-t border-paper/25" aria-hidden="true" />
-        </ol>
+                <div
+                  className={`ml-14 md:ml-0 ${
+                    i % 2 ? 'md:col-start-2 md:pl-14' : 'md:col-start-1 md:pr-14'
+                  }`}
+                >
+                  <div className="glass rounded-[1.75rem] p-6 md:p-8">
+                    <span className="sheen" aria-hidden="true" />
+                    <h3 className="text-2xl font-extrabold tracking-tight md:text-4xl">{title}</h3>
+                    <p className="mt-3 max-w-md leading-relaxed text-mist">{text}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </Timeline>
+        </div>
       </div>
     </section>
   )
